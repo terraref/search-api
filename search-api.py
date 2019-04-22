@@ -11,6 +11,7 @@ from flask_wtf import FlaskForm as Form
 from wtforms import TextField, TextAreaField, validators, StringField, SubmitField, DateField, SelectMultipleField, widgets
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
+import terrautils
 
 config = {}
 
@@ -18,9 +19,28 @@ config = {}
 # FLASK COMPONENTS ----------------------------
 def create_app():
 
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+        SECRET_KEY='dev',
+        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+    )
+
     @app.route('/test')
     def test():
         return 'this is only a test, route does nothing'
+
+    @app.route('/seasons')
+    def seasons():
+        season_numbers = [4,6]
+        seasons = []
+        for each in season_numbers:
+            season = 'Season ' + str(each)
+            seasons.append(season)
+        return str(seasons)
+
+    @app.route('/products/<int:season>')
+    def products(season):
+        return 'not implemented'
 
     return app
 
