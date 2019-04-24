@@ -1,5 +1,6 @@
 import os, thread, json, collections
 import logging, logging.config, logstash
+logging.basicConfig()
 import time
 import pandas as pd
 import numpy as np
@@ -7,6 +8,7 @@ import datetime
 import psycopg2
 import re
 from flask import Flask, render_template, send_file, request, url_for, redirect, make_response
+from flask import jsonify
 from flask_wtf import FlaskForm as Form
 from wtforms import TextField, TextAreaField, validators, StringField, SubmitField, DateField, SelectMultipleField, widgets
 from wtforms.fields.html5 import DateField
@@ -36,10 +38,11 @@ def create_app():
         for each in season_numbers:
             season = 'Season ' + str(each)
             seasons.append(season)
-        return str(seasons)
+        return jsonify(seasons)
 
     @app.route('/products/<int:season>')
     def products(season):
+        logger.info("season queried is %s " % season)
         products = ['RGB GeoTIFFs',
                 'Thermal IR GeoTIFFs',
                 'Laser Scanner 3D LAS',
@@ -49,12 +52,13 @@ def create_app():
                 'Mean Temperature',
                 'Canopy Height'
                 ]
-        return str(products)
+        return jsonify(products)
     return app
 
 
 if __name__ == '__main__':
     logger = logging.getLogger('search-api')
+    logger.setLevel('INFO')
 
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
