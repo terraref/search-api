@@ -27,9 +27,9 @@ def create_app():
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
-    @app.route('/test')
-    def test():
-        return 'this is only a test, route does nothing'
+    @app.route('/')
+    def index():
+        return 'search api up and running'
 
     @app.route('/seasons')
     def seasons():
@@ -43,16 +43,19 @@ def create_app():
     @app.route('/products/<int:season>')
     def products(season):
         logger.info("season queried is %s " % season)
-        products = ['RGB GeoTIFFs',
-                'Thermal IR GeoTIFFs',
-                'Laser Scanner 3D LAS',
-                'Full Field RGB images',
-                'Full Field IR images',
-                'Canopy Cover',
-                'Mean Temperature',
-                'Canopy Height'
-                ]
+        products = []
+        if season == 4 or season == 6:
+            products = ['RGB GeoTIFFs',
+                    'Thermal IR GeoTIFFs',
+                    'Laser Scanner 3D LAS',
+                    'Full Field RGB images',
+                    'Full Field IR images',
+                    'Canopy Cover',
+                    'Mean Temperature',
+                    'Canopy Height'
+                    ]
         return jsonify(products)
+
     return app
 
 
