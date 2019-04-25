@@ -18,8 +18,10 @@ import terrautils
 
 config = {}
 
+
 def get_season_start_date(season):
     return '2018-04-01'
+
 
 def get_site_boundaries_date(selected_date):
     with open('sites_boundaries.json', 'r') as f:
@@ -48,6 +50,7 @@ def create_app():
             season = 'Season ' + str(each)
             seasons.append(season)
         return jsonify(seasons)
+
     @app.route('/plotmap/<int:season>')
     def plotmap(season):
         logger.info("plot map for seasons %s " % season)
@@ -80,6 +83,6 @@ if __name__ == '__main__':
 
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
-    app = create_app()
+    search_app = create_app()
     logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
-    app.run(host=apiIP, port=apiPort)
+    search_app.run(host=apiIP, port=apiPort)
