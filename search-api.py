@@ -14,8 +14,17 @@ from wtforms import TextField, TextAreaField, validators, StringField, SubmitFie
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 import terrautils
+#from terrautils import betydb
 
 config = {}
+
+def get_season_start_date(season):
+    return '2018-04-01'
+
+def get_site_boundaries_date(selected_date):
+    with open('sites_boundaries.json', 'r') as f:
+        sites_boundaries = json.load(f)
+    return sites_boundaries
 
 
 # FLASK COMPONENTS ----------------------------
@@ -29,7 +38,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return 'search api up and running'
+        return 'index'
 
     @app.route('/seasons')
     def seasons():
@@ -39,6 +48,12 @@ def create_app():
             season = 'Season ' + str(each)
             seasons.append(season)
         return jsonify(seasons)
+    @app.route('/plotmap/<int:season>')
+    def plotmap(season):
+        logger.info("plot map for seasons %s " % season)
+        start_date = get_season_start_date(season)
+        sites_boundaries = get_site_boundaries_date(start_date)
+        return jsonify(sites_boundaries)
 
     @app.route('/products/<int:season>')
     def products(season):
