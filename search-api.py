@@ -76,13 +76,17 @@ def create_app():
 
     return app
 
+def main():
+    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
+    apiPort = os.getenv('COUNTER_API_PORT', "5455")
+    search_app = create_app()
+    logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
+    search_app.run(host=apiIP, port=apiPort)
 
 if __name__ == '__main__':
     logger = logging.getLogger('search-api')
     logger.setLevel('INFO')
 
-    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
-    apiPort = os.getenv('COUNTER_API_PORT', "5454")
-    search_app = create_app()
-    logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
-    search_app.run(host=apiIP, port=apiPort)
+    main()
+
+
