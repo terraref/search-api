@@ -78,7 +78,7 @@ def create_app():
 
 def main():
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
-    apiPort = os.getenv('COUNTER_API_PORT', "5455")
+    apiPort = os.getenv('COUNTER_API_PORT', "5454")
     search_app = create_app()
     logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
     search_app.run(host=apiIP, port=apiPort)
