@@ -11,4 +11,4 @@ RUN apt-get -y update \
 
 COPY *.py *.json /home/search-api/
 
-CMD ["python", "/home/filecounter/search-api.py"]
+CMD ["python", "/home/search-api/search-api.py"]
