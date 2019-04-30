@@ -40,7 +40,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return 'index'
+        return render_template('index.html')
 
     @app.route('/seasons')
     def seasons():
