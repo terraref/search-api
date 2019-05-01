@@ -39,7 +39,13 @@ def create_app():
     )
 
     @app.route('/')
+    def default():
+        logger.info("Index page being displayed")
+        return render_template('index.html')
+
+    @app.route('/index')
     def index():
+        logger.info("Index page being displayed")
         return render_template('index.html')
 
     @app.route('/seasons')
