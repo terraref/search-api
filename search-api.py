@@ -72,8 +72,6 @@ def create_app():
             products = ['RGB GeoTIFFs',
                     'Thermal IR GeoTIFFs',
                     'Laser Scanner 3D LAS',
-                    'Full Field RGB images',
-                    'Full Field IR images',
                     'Canopy Cover',
                     'Mean Temperature',
                     'Canopy Height'
