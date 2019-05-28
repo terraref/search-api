@@ -31,8 +31,8 @@ if __name__ == '__main__':
 
     app = connexion.FlaskApp(__name__, debug=debug)
 
-    app.add_api('brapi.yaml',
-                arguments={'title': 'TERRA-REF BRAPI'},
+    app.add_api('search.yaml',
+                arguments={'title': 'TERRA-REF SEARCH API'},
                 resolver=BrapiResolver('api'),
                 resolver_error=501)
 
