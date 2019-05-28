@@ -104,26 +104,8 @@ paths:
                   status: []
                 result:
                   data:
-                  - abbreviation: P1
-                    commonCropName: Tomatillo
-                    documentationURL: https://brapi.org
-                    leadPerson: Name Nameson
                     leadPersonDbId: person1
                     leadPersonName: Name Nameson
-                    name: Program 1
-                    objective: Global Population Improvement
-                    programDbId: "1"
-                    programName: Program 1
-                  - abbreviation: P2
-                    commonCropName: Tomatillo
-                    documentationURL: https://brapi.org
-                    leadPerson: Name Nameson
-                    leadPersonDbId: person1
-                    leadPersonName: Name Nameson
-                    name: Program 2
-                    objective: XYZ
-                    programDbId: "2"
-                    programName: Program 2
         400:
           description: Bad Request
           content:
