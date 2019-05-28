@@ -9,12 +9,6 @@ import psycopg2
 import re
 from flask import Flask, render_template, send_file, request, url_for, redirect, make_response
 from flask import jsonify
-from flask_wtf import FlaskForm as Form
-from wtforms import TextField, TextAreaField, validators, StringField, SubmitField, DateField, SelectMultipleField, widgets
-from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired
-import terrautils
-#from terrautils import betydb
 
 config = {}
 

@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  description: Search api for TERRA project
+  version: "1.0.0"
+  title: TERRA advanced search api
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: http://localhost:5000/
+    description: Test Server
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
