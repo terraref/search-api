@@ -149,3 +149,106 @@ components:
           type: string
           example: 408-867-5309
       type: object
+    metadata_pagination:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+        pageSize:
+          type: integer
+        totalCount:
+          type: integer
+        totalPages:
+          type: integer
+      description: The pagination object is applicable only when the payload contains
+        a "data" key. It describes the pagination of the data contained in the "data"
+        array, as a way to identify which subset of data is being returned. Pages
+        are zero indexed, so the first page will be page 0 (zero).
+    metadata:
+      type: object
+      properties:
+        datafiles:
+          type: array
+          description: The datafiles key contains a list of file paths, which can
+            be relative or complete URLs. These files contain additional information
+            related to the returned object and can be retrieved by a subsequent call.
+            The empty list should be returned if no additional data files are present.
+          items:
+            type: string
+        pagination:
+          $ref: '#/components/schemas/metadata_pagination'
+        status:
+          type: array
+          description: The status field contains a list of informational status messages
+            from the server. If no status is reported, an empty list should be returned.
+            See Error Reporting for more information.
+#          items:
+#            $ref: '#/components/schemas/status'
+    WSMIMEDataTypes:
+      type: string
+      enum:
+        - application/json
+        - text/csv
+        - text/tsv
+        - application/flapjack
+    call:
+      required:
+        - call
+        - dataTypes
+        - methods
+      type: object
+      properties:
+        call:
+          type: string
+          description: The name of the available call as recorded in the documentation
+        dataTypes:
+          type: array
+          description: The possible data formats returned by the available call
+          items:
+            $ref: '#/components/schemas/WSMIMEDataTypes'
+        datatypes:
+          type: array
+          description: DEPRECATED in v1.3 - see "dataTypes" (camel case)
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/WSMIMEDataTypes'
+        methods:
+          type: array
+          description: The possible HTTP Methods to be used with the available call
+          items:
+            type: string
+            enum:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+        versions:
+          type: array
+          description: The supported versions of a particular call
+          items:
+            type: string
+            enum:
+              - "1.0"
+              - "1.1"
+              - "1.2"
+              - "1.3"
+    callsResponse_result:
+      required:
+        - data
+      type: object
+      properties:
+        data:
+          type: array
+          description: Array of availible calls on this server
+          items:
+            $ref: '#/components/schemas/call'
+    callsResponse:
+      required:
+        - metadata
+        - result
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        result:
+          $ref: '#/components/schemas/callsResponse_result'
