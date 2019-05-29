@@ -168,6 +168,13 @@ components:
         season:
           type: string
           example: Season 1
+        coordinates:
+          type: array
+          example: [33.0, -111.0]
+    plots:
+      type: array
+      items:
+        $ref: "#/components/schemas/plot"
     season:
       required:
         - seasonname
@@ -181,4 +188,8 @@ components:
         enddate:
           type: string
           example: "2017-04-39"
+    seasons:
+      type: array
+      items:
+        $ref: "#/components/schemas/season"
 
