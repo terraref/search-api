@@ -3,7 +3,7 @@
 import logging
 
 import connexion
-from brapiresolver import BrapiResolver
+from searchresolver import SearchResolver
 
 
 def token_auth(token, required_scopes):
@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     app.add_api('search.yaml',
                 arguments={'title': 'TERRA-REF SEARCH API'},
-                resolver=BrapiResolver('api'),
+                resolver=SearchResolver('api'),
                 resolver_error=501)
 
     # app.run(port=5000, host=None, server='flask', debug=debug, use_reloader=False)

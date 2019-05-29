@@ -3,7 +3,7 @@ import re
 from connexion import Resolver
 
 
-class BrapiResolver(Resolver):
+class SearchResolver(Resolver):
     """
     Resolves endpoint functions using REST semantics (unless overridden by specifying operationId)
     """
