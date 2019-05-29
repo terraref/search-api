@@ -155,3 +155,30 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/searchResult"
+    plot:
+      required:
+        - plotname
+      properties:
+        plotname:
+          type: string
+          example: "Row 1 Column 1"
+        experiment:
+          type: string
+          example: Drought Tolerance
+        season:
+          type: string
+          example: Season 1
+    season:
+      required:
+        - seasonname
+      properties:
+        seasonname:
+          type: string
+          example: Season 1
+        startdate:
+          type: string
+          example: "2017-01-01"
+        enddate:
+          type: string
+          example: "2017-04-39"
+
