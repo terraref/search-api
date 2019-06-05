@@ -15,6 +15,7 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 import terrautils
 #from terrautils import betydb
+from flask_cors import CORS, cross_origin
 
 config = {}
 
@@ -33,6 +34,8 @@ def get_site_boundaries_date(selected_date):
 def create_app():
 
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -49,6 +52,7 @@ def create_app():
         return render_template('index.html')
 
     @app.route('/seasons')
+    @cross_origin()
     def seasons():
         season_numbers = [4,6]
         seasons = []
