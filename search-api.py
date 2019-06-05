@@ -42,11 +42,13 @@ def create_app():
     )
 
     @app.route('/')
+    @cross_origin()
     def default():
         logger.info("Index page being displayed")
         return render_template('index.html')
 
     @app.route('/index')
+    @cross_origin()
     def index():
         logger.info("Index page being displayed")
         return render_template('index.html')
@@ -62,6 +64,7 @@ def create_app():
         return jsonify(seasons)
 
     @app.route('/plotmap/<int:season>')
+    @cross_origin()
     def plotmap(season):
         logger.info("plot map for seasons %s " % season)
         start_date = get_season_start_date(season)
@@ -69,6 +72,7 @@ def create_app():
         return jsonify(sites_boundaries)
 
     @app.route('/products/<int:season>')
+    @cross_origin()
     def products(season):
         logger.info("season queried is %s " % season)
         products = []
