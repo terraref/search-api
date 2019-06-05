@@ -36,25 +36,31 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
 
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        return response
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
+
+
     @app.route('/')
-    @cross_origin()
     def default():
         logger.info("Index page being displayed")
         return render_template('index.html')
 
     @app.route('/index')
-    @cross_origin()
     def index():
         logger.info("Index page being displayed")
         return render_template('index.html')
 
     @app.route('/seasons')
-    @cross_origin()
     def seasons():
         season_numbers = [4,6]
         seasons = []
@@ -64,7 +70,6 @@ def create_app():
         return jsonify(seasons)
 
     @app.route('/plotmap/<int:season>')
-    @cross_origin()
     def plotmap(season):
         logger.info("plot map for seasons %s " % season)
         start_date = get_season_start_date(season)
@@ -72,7 +77,6 @@ def create_app():
         return jsonify(sites_boundaries)
 
     @app.route('/products/<int:season>')
-    @cross_origin()
     def products(season):
         logger.info("season queried is %s " % season)
         products = []
