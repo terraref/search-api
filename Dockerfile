@@ -7,7 +7,8 @@ RUN apt-get -y update \
         flask_wtf \
         python-logstash \
         psycopg2 \
-        pandas
+        pandas \
+         -U flask-cors
 
 COPY *.py *.json /home/search-api/
 
