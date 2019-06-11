@@ -9,7 +9,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: http://localhost:5000/
+  - url: http://localhost:5000/search-api/v1
     description: Test Server
 tags:
   - name: admins
