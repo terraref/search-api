@@ -2,14 +2,14 @@
   {
     "experiment": "Drought Tolerance",
     "season": "Season 0",
-    "plotname": "Row 1 Column 1",
+    "observationunitname": "Row 1 Column 1",
     "coordinates": [33.0, -111.0]
 
   },
   {
     "experiment": "Cover Crop",
     "season": "Season 0",
-    "plotname": "Row 2 Column 1",
+    "observationunitname": "Row 2 Column 1",
     "coordinates": [33.1, -111.1]
   }
 ]

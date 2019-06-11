@@ -147,9 +147,9 @@ paths:
         explode: true
         schema:
           type: string
-      - name: plotname
+      - name: observationunitname
         in: query
-        description: Filter by plotname.
+        description: Filter by observationunitname/plotname.
         required: false
         style: form
         explode: true
@@ -226,16 +226,16 @@ paths:
                 type: string
               example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
                 to perform this action
-  /plots:
+  /observationunits:
     get:
       tags:
-      - Plots
-      summary: Get plots with filters applied
-      description: Plots method.
+      - Observationunits
+      summary: Get observationunits/plots with filters applied
+      description: Observationunits method.
       parameters:
       - name: date
         in: query
-        description: Filter plots that include this date
+        description: Filter observationunits/plots that include this date
         required: false
         style: form
         explode: true
@@ -293,7 +293,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/plots'
+                $ref: '#/components/schemas/observationunits'
         400:
           description: Bad Request
           content:
@@ -329,7 +329,7 @@ components:
         site:
           type: string
           example: Maricopa, AZ
-        plot:
+        observationunitname:
           type: string
           example: 'Row 1 Column 1'
         experiment:
@@ -343,11 +343,11 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/searchResult"
-    plot:
+    observationunit:
       required:
-        - plotname
+        - observationunitname
       properties:
-        plotname:
+        observationunitname:
           type: string
           example: "Row 1 Column 1"
         experiment:
@@ -359,10 +359,10 @@ components:
         coordinates:
           type: array
           example: [33.0, -111.0]
-    plots:
+    observationunits:
       type: array
       items:
-        $ref: "#/components/schemas/plot"
+        $ref: "#/components/schemas/observationunit"
     season:
       required:
         - seasonname
