@@ -40,9 +40,9 @@ paths:
         explode: true
         schema:
           type: string
-      - name: cultivarId
+      - name: germplasmId
         in: query
-        description: Filter by program cultivarId.
+        description: Filter by program germplasmId.
         required: false
         style: form
         explode: true
@@ -155,9 +155,9 @@ paths:
         explode: true
         schema:
           type: string
-      - name: cultivar
+      - name: germplasm
         in: query
-        description: Filter by cultivar.
+        description: Filter by germplasm/cultivar.
         required: false
         style: form
         explode: true
@@ -249,9 +249,9 @@ paths:
         explode: true
         schema:
           type: string
-      - name: cultivar
+      - name: germplasm
         in: query
-        description: Filter by cultivar.
+        description: Filter by germplasm/cultivar.
         required: false
         style: form
         explode: true
@@ -335,7 +335,7 @@ components:
         experiment:
           type: string
           example: Drought Tolerance
-        cultivar:
+        germplasm:
           type: string
           example: Sorghum
       type: object
