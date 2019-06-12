@@ -69,10 +69,10 @@ def create_app():
 
 def main():
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
-    apiPort = os.getenv('COUNTER_API_PORT', "5000")
+    apiPort = os.getenv('COUNTER_API_PORT', "5454")
     logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
     search_app = create_app()
-    search_app.run(port=5000, host=None, server='flask', debug=debug)
+    search_app.run(port=5454, host=None, server='flask', debug=debug)
 
 
 if __name__ == '__main__':
