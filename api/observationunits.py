@@ -1,6 +1,6 @@
 import json
 
-data = json.load(open('data/plots.json', 'r'))
+data = json.load(open('data/observationunits.json', 'r'))
 
 def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, pageSize=None, page=None):
     return data
