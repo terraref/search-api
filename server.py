@@ -4,6 +4,7 @@ import logging
 
 import connexion
 from searchresolver import SearchResolver
+from flask_cors import CORS, cross_origin
 
 
 def token_auth(token, required_scopes):
@@ -30,6 +31,16 @@ if __name__ == '__main__':
         logging.basicConfig(format='%(asctime)-15s %(message)s', level=logging.INFO)
 
     app = connexion.FlaskApp(__name__, debug=debug)
+
+    CORS(app)
+
+
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        return response
 
     app.add_api('search.yaml',
                 arguments={'title': 'TERRA advanced search api'},
