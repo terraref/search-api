@@ -12,8 +12,10 @@ RUN apk add --no-cache postgresql-libs \
     && apk --purge del .build-deps
 
 RUN pip install connexion \
-    pip install sqlalchemy \
-    pip install flask_cors
+    sqlalchemy \
+    flask-restful \
+    flask_wtf \
+    flask_cors
 
 COPY . .
 
