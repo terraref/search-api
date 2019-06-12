@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import logging, logging.config
+
 logging.basicConfig()
 import os
 import connexion
@@ -25,33 +26,16 @@ def basic_auth(username, password, required_scopes=None):
     print("basic_auth")
     return {'user': 'admin'}
 
+
 def create_app():
     app = connexion.FlaskApp(__name__, debug=debug)
 
-    #CORS(app.app)
-
-    # def add_cors_headers(response):
-    #     response.headers['Access-Control-Allow-Origin'] = '*'
-    #     if request.method == 'OPTIONS':
-    #         response.headers['Access-Control-Allow-Methods'] = 'DELETE, GET, POST, PUT'
-    #         headers = request.headers.get('Access-Control-Request-Headers')
-    #         if headers:
-    #             response.headers['Access-Control-Allow-Headers'] = headers
-    #     return response
-    #
-    # app.app.after_request(add_cors_headers)
-
-
-
-
-
-
-
-    app.add_api('search.yaml',
-                arguments={'title': 'TERRA advanced search api'},
-                resolver=SearchResolver('api'),
-                resolver_error=501)
+    # app.add_api('search.yaml',
+    #             arguments={'title': 'TERRA advanced search api'},
+    #             resolver=SearchResolver('api'),
+    #             resolver_error=501)
     CORS(app.app)
+
     @app.app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Origin', '*')
@@ -59,19 +43,22 @@ def create_app():
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         return response
 
-
     @app.route('/')
     def default():
         return "this is the defaultpage"
 
-
     return app
+
 
 def main():
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
     logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
     search_app = create_app()
+    search_app.add_api('search.yaml',
+                       arguments={'title': 'TERRA advanced search api'},
+                       resolver=SearchResolver('api'),
+                       resolver_error=501)
     search_app.run(port=5454, host=None, server='flask', debug=debug)
 
 
@@ -85,7 +72,3 @@ if __name__ == '__main__':
         logging.basicConfig(format='%(asctime)-15s %(message)s', level=logging.INFO)
 
     main()
-
-
-
-

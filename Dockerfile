@@ -11,11 +11,6 @@ RUN apk add --no-cache postgresql-libs \
     && python3 -m pip install -r requirements.txt --no-cache-dir \
     && apk --purge del .build-deps
 
-RUN pip install connexion \
-    sqlalchemy \
-    flask-restful \
-    flask_wtf \
-    flask_cors
 
 COPY . .
 
