@@ -28,16 +28,18 @@ def basic_auth(username, password, required_scopes=None):
 def create_app():
     app = connexion.FlaskApp(__name__, debug=debug)
 
-    def add_cors_headers(response):
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        if request.method == 'OPTIONS':
-            response.headers['Access-Control-Allow-Methods'] = 'DELETE, GET, POST, PUT'
-            headers = request.headers.get('Access-Control-Request-Headers')
-            if headers:
-                response.headers['Access-Control-Allow-Headers'] = headers
-        return response
+    #CORS(app.app)
 
-    app.app.after_request(add_cors_headers)
+    # def add_cors_headers(response):
+    #     response.headers['Access-Control-Allow-Origin'] = '*'
+    #     if request.method == 'OPTIONS':
+    #         response.headers['Access-Control-Allow-Methods'] = 'DELETE, GET, POST, PUT'
+    #         headers = request.headers.get('Access-Control-Request-Headers')
+    #         if headers:
+    #             response.headers['Access-Control-Allow-Headers'] = headers
+    #     return response
+    #
+    # app.app.after_request(add_cors_headers)
 
 
 
@@ -49,13 +51,14 @@ def create_app():
                 arguments={'title': 'TERRA advanced search api'},
                 resolver=SearchResolver('api'),
                 resolver_error=501)
-    # CORS(app)
-    # @app.after_request
-    # def after_request(response):
-    #     response.headers.add('Access-Control-Allow-Origin', '*')
-    #     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    #     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    #     return response
+    CORS(app.app)
+    @app.app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+        return response
+
 
     @app.route('/')
     def default():
