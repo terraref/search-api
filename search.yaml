@@ -50,8 +50,7 @@ paths:
             type: string
         - name: page
           in: query
-          description: Which result page is requested. The page indexing starts at 0
-            (the first page is 'page'= 0). Default is `0`.
+          description: Filter by result page. Note that page indexing starts at 0.
           required: false
           style: form
           explode: true
@@ -191,8 +190,7 @@ paths:
           type: string
       - name: page
         in: query
-        description: Which result page is requested. The page indexing starts at 0
-          (the first page is 'page'= 0). Default is `0`.
+        description: Filter by result page. Note that page indexing starts at 0.
         required: false
         style: form
         explode: true
@@ -201,7 +199,7 @@ paths:
         example: "0"
       - name: pageSize
         in: query
-        description: The size of the pages to be returned. Default is `1000`.
+        description: The number of records per page. Default is `1000`.
         required: false
         style: form
         explode: true
@@ -270,7 +268,7 @@ paths:
       tags:
       - Seasons
       summary: Get seasons with filters applied
-      description: Season method.
+      description: API method for season.
       parameters:
       - name: date
         in: query
@@ -298,8 +296,7 @@ paths:
           type: string
       - name: page
         in: query
-        description: Which result page is requested. The page indexing starts at 0
-          (the first page is 'page'= 0). Default is `0`.
+        description: Filter by result page. Note that page indexing starts at 0.
         required: false
         style: form
         explode: true
@@ -308,7 +305,7 @@ paths:
         example: "0"
       - name: pageSize
         in: query
-        description: The size of the pages to be returned. Default is `1000`.
+        description: The number of records per page. Default is `1000`.
         required: false
         style: form
         explode: true
@@ -381,14 +378,15 @@ components:
           example: Maricopa, AZ
         observationunitname:
           type: string
-          example: 'Row 1 Column 1'
+          example: "MAC Field Scanner Season 1 Range 1 Column 1"
         experiment:
           type: string
           example: Drought Tolerance
         germplasm:
           type: string
-          example: Sorghum
+          example: 700D_BMR
       type: object
+      
     searchResults:
       type: array
       items:
@@ -399,7 +397,7 @@ components:
       properties:
         observationunitname:
           type: string
-          example: "Row 1 Column 1"
+          example: "MAC Field Scanner Season 1 Range 1 Column 1"
         experiment:
           type: string
           example: Drought Tolerance

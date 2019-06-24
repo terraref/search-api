@@ -1,4 +1,5 @@
-connexion
+connexion[swagger-ui]==2.2.0
+sqlalchemy
 flask-restful
 flask_wtf
 flask_cors
