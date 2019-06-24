@@ -386,7 +386,6 @@ components:
           type: string
           example: 700D_BMR
       type: object
-      
     searchResults:
       type: array
       items:
