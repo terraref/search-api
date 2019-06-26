@@ -384,7 +384,7 @@ components:
           example: Drought Tolerance
         germplasm:
           type: string
-          example: 700D_BMR
+          example: "PI564163"
       type: object
     searchResults:
       type: array

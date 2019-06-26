@@ -3,13 +3,13 @@
     "experiment": "Drought Tolerance",
     "site": "Maricopa",
     "plot": "Row 1 Column 1",
-    "germplasm": "Sorghum"
+    "germplasm": "PI564163"
 
   },
   {
     "experiment": "Cover Crop",
     "site": "Maricopa",
     "plot": "Row 2 Column 1",
-    "germplasm": "Winter Wheat"
+    "germplasm": "PI564163"
   }
 ]
