@@ -358,6 +358,19 @@ paths:
                 to perform this action
 components:
   schemas:
+    germplasm:
+      required:
+        - germplasmName
+      properties:
+        genus:
+          type: string
+          example: "sorghum"
+        commoncropname:
+          type: string
+          example: "sorghum"
+        germplasmName:
+          type: string
+          example: "PI564163"
     product:
       required:
         - name
