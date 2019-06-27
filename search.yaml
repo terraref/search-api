@@ -396,8 +396,8 @@ components:
           type: string
           example: Drought Tolerance
         germplasm:
-          type: string
-          example: "PI564163"
+          type: object
+          $ref: "#/components/schemas/germplasm"
       type: object
     searchResults:
       type: array
