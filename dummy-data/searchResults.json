@@ -2,14 +2,22 @@
   {
     "experiment": "Drought Tolerance",
     "site": "Maricopa",
-    "plot": "Row 1 Column 1",
-    "germplasm": "PI564163"
+    "plot": "MAC Field Scanner Season 1 Range 1 Column 1",
+    "germplasm": {
+      "genus": "sorghum",
+      "commoncropname": "sorghum",
+      "germplasmName": "PI564163"
+    }
 
   },
   {
     "experiment": "Cover Crop",
     "site": "Maricopa",
-    "plot": "Row 2 Column 1",
-    "germplasm": "PI564163"
+    "plot": "MAC Field Scanner Season 1 Range 1 Column 2",
+    "germplasm": {
+      "genus": "sorghum",
+      "commoncropname": "sorghum",
+      "germplasmName": "PI564163"
+    }
   }
 ]
