@@ -8,7 +8,7 @@
       "commoncropname": "sorghum",
       "germplasmName": "PI564163"
     },
-    "IR GeoTIFFs": [
+    "dataset_links": [
       "https://terraref.ncsa.illinois.edu/clowder/datasets/5be33c774f0c0d5cbe6f2e67",
       "https://terraref.ncsa.illinois.edu/clowder/datasets/5be2f8b44f0cbb2bcecc0aaa",
       "https://terraref.ncsa.illinois.edu/clowder/datasets/5be2f6ad4f0cb2fdab9e0ed5",
@@ -27,7 +27,7 @@
       "commoncropname": "sorghum",
       "germplasmName": "PI564163"
     },
-    "IR GeoTIFFs": [
+    "dataset_links": [
       "https://terraref.ncsa.illinois.edu/clowder/datasets/5be33c774f0c0d5cbe6f2e67",
       "https://terraref.ncsa.illinois.edu/clowder/datasets/5be2f8b44f0cbb2bcecc0aaa",
       "https://terraref.ncsa.illinois.edu/clowder/datasets/5be2f6ad4f0cb2fdab9e0ed5",
