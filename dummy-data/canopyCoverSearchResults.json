@@ -7,7 +7,13 @@
       "genus": "sorghum",
       "commoncropname": "sorghum",
       "germplasmName": "PI564163"
-    }
+    },
+    "dataset_ids": [
+      "5afb3c104f0c98faec480a5f"
+    ],
+    "dataset_links": [
+      "https://terraref.ncsa.illinois.edu/clowder/datasets/5afb3c104f0c98faec480a5f"
+    ]
 
   },
   {
@@ -18,6 +24,12 @@
       "genus": "sorghum",
       "commoncropname": "sorghum",
       "germplasmName": "PI564163"
-    }
+    },
+    "dataset_ids" : [
+      "5af5bfec4f0c98faec0c6082"
+    ],
+    "dataset_links": [
+      "https://terraref.ncsa.illinois.edu/clowder/datasets/5af5bfec4f0c98faec0c6082"
+    ]
   }
 ]
