@@ -406,6 +406,10 @@ components:
         germplasm:
           type: object
           $ref: "#/components/schemas/germplasm"
+        dataset_ids:
+          type: array
+        dataset_links:
+          type: array
       type: object
     searchResults:
       type: array
