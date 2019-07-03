@@ -188,6 +188,14 @@ paths:
         explode: true
         schema:
           type: string
+      - name: product
+        in: query
+        description: Product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: page
         in: query
         description: Filter by result page. Note that page indexing starts at 0.
