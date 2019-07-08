@@ -18,6 +18,9 @@ further refine the query to return fewer results.
 # MAPPING, CLOWDER, BETYDB, BRAPI, SEARCH-API
 
 cultivar, cultivar, germplasm, germplasm
+sitename, sitename, observationunitname, observationunitname
+
+
 
 
 #SWAGGER DOCUMENTATION
