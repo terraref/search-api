@@ -1,15 +1,17 @@
-FROM terraref/terrautils:1.4
-MAINTAINER Max Burnette <mburnet2@illinois.edu>
+FROM python:3-alpine
 
-RUN apt-get -y update \
-    && apt-get -y install curl \
-    && pip install flask-restful \
-        flask_wtf \
-        python-logstash \
-        psycopg2 \
-        pandas \
-         -U flask-cors
+EXPOSE 5000
 
-COPY *.py *.json /home/search-api/
+WORKDIR /usr/src/app
 
-CMD ["python", "/home/search-api/search-api.py"]
+COPY requirements.txt .
+
+RUN apk add --no-cache postgresql-libs \
+    && apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev \
+    && python3 -m pip install -r requirements.txt --no-cache-dir \
+    && apk --purge del .build-deps
+
+
+COPY . .
+
+CMD ["./server.py"]
