@@ -13,6 +13,7 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
         elif product == 'Canopy Cover':
             if season:
                 result = bety_helper.get_canopy_cover_sitename(season,bety_key=os.environ['BETY_KEY'])
+                print("done")
     return data
 
 def get(season=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):

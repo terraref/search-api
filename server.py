@@ -10,6 +10,7 @@ from flask import Flask
 from flask import Flask, render_template, send_file, request, url_for, redirect, make_response
 from flask import jsonify
 from flask_cors import CORS, cross_origin
+import max_bety_sample
 
 
 def token_auth(token, required_scopes):
@@ -63,6 +64,7 @@ def main():
 
 
 if __name__ == '__main__':
+    os.environ['BETY_KEY'] = max_bety_sample.bety_key
     debug = False
     logger = logging.getLogger('search-api')
     logger.setLevel('INFO')
