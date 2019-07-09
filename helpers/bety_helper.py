@@ -54,3 +54,4 @@ def get_canopy_cover_sitename(sitename, bety_key):
     csv_name = "%s %s.csv" % (sitename, t)
 
     df.to_csv(csv_name, index=False)
+    return csv_name
