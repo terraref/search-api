@@ -18,6 +18,10 @@ further refine the query to return fewer results.
 # MAPPING, CLOWDER, BETYDB, BRAPI, SEARCH-API
 
 cultivar, cultivar, germplasm, germplasm
+
+experiment.id, experiment.id, studydbid, studydbid
+
+site.id, site.id, observationunitdbid, observationunitdbid
 sitename, sitename, observationunitname, observationunitname
 
 
