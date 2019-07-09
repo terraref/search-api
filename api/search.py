@@ -26,6 +26,19 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
                                      mimetype='text/csv',
                                      attachment_filename=result,
                                      as_attachment=True)
+        elif product == 'Canopy Height':
+            if season:
+                if os.environ['BETY_KEY'] == '':
+                    return send_file('Season 6 canopy_cover.csv',
+                                     mimetype='text/csv',
+                                     attachment_filename='Season 6 canopy_cover.csv',
+                                     as_attachment=True)
+                else:
+                    result = bety_helper.get_canopy_height_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
+                    return send_file(result,
+                                     mimetype='text/csv',
+                                     attachment_filename=result,
+                                     as_attachment=True)
 
     return data
 
