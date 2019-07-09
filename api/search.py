@@ -15,12 +15,18 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
             return geotiff_data
         elif product == 'Canopy Cover':
             if season:
-                result = bety_helper.get_canopy_cover_sitename('Season ' + season,bety_key=os.environ['BETY_KEY'])
-                print("done")
-                return send_file(result,
-                                 mimetype='text/csv',
-                                 attachment_filename=result,
-                                 as_attachment=True)
+                if os.environ['BETY_KEY'] == '':
+                    return send_file('Season 6 canopy_cover.csv',
+                                     mimetype='text/csv',
+                                     attachment_filename='Season 6 canopy_cover.csv',
+                                     as_attachment=True)
+                else:
+                    result = bety_helper.get_canopy_cover_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
+                    return send_file(result,
+                                     mimetype='text/csv',
+                                     attachment_filename=result,
+                                     as_attachment=True)
+
     return data
 
 def get(season=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
