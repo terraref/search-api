@@ -9,36 +9,29 @@ data = json.load(open('dummy-data/searchResults.json', 'r'))
 geotiff_data = json.load(open('dummy-data/geotiffSearchResults.json', 'r'))
 canopycover_data = json.load(open('dummy-data/canopyCoverSearchResults.json', 'r'))
 
+
 def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+    if season:
+        pass
+    else:
+        season = '6'
+
     if product:
         if product == 'IR GeoTIFF':
             return geotiff_data
         elif product == 'Canopy Cover':
-            if season:
-                if os.environ['BETY_KEY'] == '':
-                    return send_file('Season 6 canopy_cover.csv',
-                                     mimetype='text/csv',
-                                     attachment_filename='Season 6 canopy_cover.csv',
-                                     as_attachment=True)
-                else:
-                    result = bety_helper.get_canopy_cover_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
-                    return send_file(result,
-                                     mimetype='text/csv',
-                                     attachment_filename=result,
-                                     as_attachment=True)
+            result = bety_helper.get_trait_sitename('Season ' + season, trait='Canopy Cover', bety_key=os.environ['BETY_KEY'])
+            return send_file(result,
+                             mimetype='text/csv',
+                             attachment_filename=result,
+                             as_attachment=True)
+
         elif product == 'Canopy Height':
-            if season:
-                if os.environ['BETY_KEY'] == '':
-                    return send_file('Season 6 canopy_cover.csv',
-                                     mimetype='text/csv',
-                                     attachment_filename='Season 6 canopy_cover.csv',
-                                     as_attachment=True)
-                else:
-                    result = bety_helper.get_canopy_height_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
-                    return send_file(result,
-                                     mimetype='text/csv',
-                                     attachment_filename=result,
-                                     as_attachment=True)
+            result = bety_helper.get_trait_sitename('Season ' + season, trait='Canopy Height', bety_key=os.environ['BETY_KEY'])
+            return send_file(result,
+                             mimetype='text/csv',
+                             attachment_filename=result,
+                             as_attachment=True)
 
     return data
 
