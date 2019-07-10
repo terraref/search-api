@@ -15,7 +15,7 @@ def get_trait_sitename(sitename, trait, bety_key):
     values = []
     column_names = ["date", "sitename", "trait", "trait_description", "mean"]
 
-    t = trait
+    t = trait.lower().replace(' ', '_')
     offset = 0
     done = False
     while done == False:

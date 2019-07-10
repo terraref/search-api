@@ -25,10 +25,7 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
         if str(product) in clowder_products:
             return geotiff_data
         elif str(product) in bety_products:
-            if str(product) == 'Canopy Cover':
-                result = bety_helper.get_canopy_cover_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
-            elif str(product) == 'Canopy Height':
-                result = bety_helper.get_canopy_height_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
+            result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
             return send_file(result,
                              mimetype='text/csv',
                              attachment_filename=result,
