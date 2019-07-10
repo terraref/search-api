@@ -52,7 +52,6 @@ def get_trait_sitename(sitename, trait, bety_key):
     df.sort_values(by=['date'], inplace=True, ascending=True)
     csv_name = "%s %s.csv" % (sitename, t)
 
-
     df.to_csv(csv_name, index=False)
     return csv_name
 
