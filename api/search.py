@@ -10,11 +10,11 @@ geotiff_data = json.load(open('dummy-data/geotiffSearchResults.json', 'r'))
 canopycover_data = json.load(open('dummy-data/canopyCoverSearchResults.json', 'r'))
 
 bety_products = ['Canopy Cover', 'Canopy Height', 'Mean Temperature']
-clowder_products = ['rgb Geotiffs', 'thermal ir Geotiffs', 'laser scanner 3d las',
-                    'full field rgb images', 'full field ir images']
+clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS',
+                    'Full Field RGB Images', 'Full Field IR Images']
 
 
-def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+def search(season=None, date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
     if season:
         pass
     else:
@@ -23,7 +23,9 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
 
     if product:
         if str(product) in clowder_products:
-            return geotiff_data
+            if date:
+                result = clowder_helper.get_dataset_link(product, date)
+                return result
         elif str(product) in bety_products:
             result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
             return send_file(result,
@@ -33,5 +35,5 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
 
     return data
 
-def get(season=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+def get(season=None, date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
     return "this is the page"
