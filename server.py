@@ -63,6 +63,7 @@ def main():
 
 
 if __name__ == '__main__':
+    os.environ['BETY_KEY'] = "GZJZWnJpnDBhmKk7k6vb46z6lW6vjxSniRivRl2I"
     debug = False
     logger = logging.getLogger('search-api')
     logger.setLevel('INFO')
