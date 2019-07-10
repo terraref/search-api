@@ -9,7 +9,7 @@ data = json.load(open('dummy-data/searchResults.json', 'r'))
 geotiff_data = json.load(open('dummy-data/geotiffSearchResults.json', 'r'))
 canopycover_data = json.load(open('dummy-data/canopyCoverSearchResults.json', 'r'))
 
-bety_products = ['canopy cover', 'canopy height', 'mean temperature']
+bety_products = ['Canopy Cover', 'Canopy Height', 'Mean Temperature']
 clowder_products = ['rgb Geotiffs', 'thermal ir Geotiffs', 'laser scanner 3d las',
                     'full field rgb images', 'full field ir images']
 
@@ -20,11 +20,15 @@ def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, p
     else:
         season = '6'
 
+
     if product:
-        if str(product).lower in clowder_products:
+        if str(product) in clowder_products:
             return geotiff_data
-        elif str(product).lower in bety_products:
-            result = bety_helper.get_trait_sitename('Season ' + season, trait=str(product), bety_key=os.environ['BETY_KEY'])
+        elif str(product) in bety_products:
+            if str(product) == 'Canopy Cover':
+                result = bety_helper.get_canopy_cover_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
+            elif str(product) == 'Canopy Height':
+                result = bety_helper.get_canopy_height_sitename('Season ' + season, bety_key=os.environ['BETY_KEY'])
             return send_file(result,
                              mimetype='text/csv',
                              attachment_filename=result,

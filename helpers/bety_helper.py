@@ -141,7 +141,6 @@ def get_canopy_cover_sitename(sitename, bety_key):
 
     df = pd.DataFrame(values, columns=column_names)
     df.sort_values(by=['date'], inplace=True, ascending=True)
-    current = os.getcwd()
     csv_name = "%s %s.csv" % (sitename, t)
 
     df.to_csv(csv_name, index=False)
