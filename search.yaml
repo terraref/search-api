@@ -164,6 +164,14 @@ paths:
         explode: true
         schema:
           type: string
+      - name: date
+        in: query
+        description: Filter by single date.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
       - name: experimentId
         in: query
         description: Filter by experimentId.
