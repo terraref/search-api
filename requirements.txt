@@ -3,3 +3,4 @@ sqlalchemy
 flask-restful
 flask_wtf
 flask_cors
+pandas
