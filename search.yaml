@@ -418,6 +418,8 @@ components:
           type: array
         download_links:
           type: array
+        download_link:
+          type: string
       type: object
     searchResults:
       type: array

@@ -48,6 +48,15 @@ def create_app():
     def default():
         return "this is the defaultpage"
 
+    @app.route('/download_file/<filename>')
+    def download_file(filename):
+        if str(filename).endswith('.csv'):
+            return send_file(filename,
+                             mimetype='text/csv',
+                             attachment_filename=filename,
+                             as_attachment=True)
+        else:
+            return 'Nothing'
     return app
 
 
@@ -64,8 +73,8 @@ def main():
 
 
 if __name__ == '__main__':
-    os.environ['BETY_KEY'] = max_bety_sample.bety_key
-    os.environ['CLOWDER_KEY'] = max_bety_sample.clowder_key
+    # os.environ['BETY_KEY'] = max_bety_sample.bety_key
+    # os.environ['CLOWDER_KEY'] = max_bety_sample.clowder_key
     debug = False
     logger = logging.getLogger('search-api')
     logger.setLevel('INFO')

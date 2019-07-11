@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import datetime
 from datetime import datetime
+import os
 
 bety_api = "https://terraref.ncsa.illinois.edu/bety/api/v1/search"
 bety_key = 'SECRET'
@@ -54,5 +55,12 @@ def get_trait_sitename(sitename, trait, bety_key):
     csv_name = "%s %s.csv" % (sitename, t)
 
     df.to_csv(csv_name, index=False)
-    return csv_name
+    csv_size_bytes = os.stat(csv_name).st_size
+    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
+    apiPort = os.getenv('COUNTER_API_PORT', "5454")
+
+    download_link = apiIP+':'+apiPort+'/download_file/'+csv_name
+    result = {'download_link': download_link, 'bytes': csv_size_bytes}
+
+    return result
 
