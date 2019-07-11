@@ -14,7 +14,7 @@ clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS
                     'Full Field RGB Images', 'Full Field IR Images']
 
 
-def search(season=None, date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
     if season:
         pass
     else:
@@ -23,7 +23,10 @@ def search(season=None, date=None, experimentId=None, germplasmId=None, treatmen
     if product:
         if str(product) in clowder_products:
             if date:
-                result = clowder_helper.get_dataset_link(product, date)
+                result = clowder_helper.get_clowder_result_single_date(product, date)
+                return {"clowder": result, "bety": []}
+            elif start_date and end_date:
+                result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date)
                 return {"clowder": result, "bety": []}
         elif str(product) in bety_products:
             result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
@@ -31,5 +34,5 @@ def search(season=None, date=None, experimentId=None, germplasmId=None, treatmen
     else:
         return {"clowder": [], "bety": []}
 
-def get(season=None, date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+def get(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
     return "this is the page"
