@@ -414,6 +414,28 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/product"
+    betySearchResult:
+      properties:
+        name:
+          type: string
+          example: "Canopy Cover Season 6"
+        view:
+          type: string
+          example: "https://traitvis.workbench.terraref.org/"
+        download:
+          type: string
+          example: "http://0.0.0.0:5454/download_file/Season%206%20canopy_cover.csv"
+    clowderSearchResult:
+      properties:
+        name:
+          type: string
+          example: "dviSensor - 2019-04-30__12-52-28-576"
+        view:
+          type: string
+          example: "https://terraref.ncsa.illinois.edu/clowder/datasets/5d1b5f194f0c82bd890310d6"
+        download:
+          type: string
+          example: "https://terraref.ncsa.illinois.edu/clowder/api/datasets/5d1b5f184f0c60bf546bd092"
     searchResult:
       properties:
         site:
