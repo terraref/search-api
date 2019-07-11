@@ -20,21 +20,16 @@ def search(season=None, date=None, experimentId=None, germplasmId=None, treatmen
     else:
         season = '6'
 
-
     if product:
         if str(product) in clowder_products:
             if date:
                 result = clowder_helper.get_dataset_link(product, date)
-                return result
+                return {"clowder": result, "bety": []}
         elif str(product) in bety_products:
             result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
-            return result
-            # return send_file(result,
-            #                  mimetype='text/csv',
-            #                  attachment_filename=result,
-            #                  as_attachment=True)
-
-    return data
+            return {"clowder": [], "bety": [result]}
+    else:
+        return {"clowder": [], "bety": []}
 
 def get(season=None, date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
     return "this is the page"
