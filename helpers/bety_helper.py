@@ -59,7 +59,8 @@ def get_trait_sitename(sitename, trait, bety_key):
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
 
-    download_link = apiIP+':'+apiPort+'/download_file/'+csv_name
+    download_link = 'http://'+apiIP+':'+apiPort+'/download_file/'+csv_name
+    download_link = download_link.replace(' ', '%20')
     result = {'download_link': download_link, 'bytes': csv_size_bytes}
 
     return result

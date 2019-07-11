@@ -28,10 +28,11 @@ def search(season=None, date=None, experimentId=None, germplasmId=None, treatmen
                 return result
         elif str(product) in bety_products:
             result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
-            return send_file(result,
-                             mimetype='text/csv',
-                             attachment_filename=result,
-                             as_attachment=True)
+            return result
+            # return send_file(result,
+            #                  mimetype='text/csv',
+            #                  attachment_filename=result,
+            #                  as_attachment=True)
 
     return data
 

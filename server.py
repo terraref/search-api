@@ -73,8 +73,6 @@ def main():
 
 
 if __name__ == '__main__':
-    # os.environ['BETY_KEY'] = max_bety_sample.bety_key
-    # os.environ['CLOWDER_KEY'] = max_bety_sample.clowder_key
     debug = False
     logger = logging.getLogger('search-api')
     logger.setLevel('INFO')
