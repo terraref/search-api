@@ -33,7 +33,7 @@ def get_bety_search_result(sitename, trait):
 
 def get_trait_sitename(sitename, trait, bety_key):
     t = trait.lower().replace(' ', '_')
-    csv_name = "%s %s.csv" % (sitename, t)
+    csv_name = "%s%s.csv" % (sitename, t)
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
     download_link = 'http://' + apiIP + ':' + apiPort + '/download_file/' + csv_name

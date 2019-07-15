@@ -51,11 +51,18 @@ def create_app():
 
     @app.route('/download_bety_file/<filename>')
     def download_bety_file(filename):
-        result = bety_helper.generate_bety_csv_from_filename(filename)
-        return send_file(result,
-                         mimetype='text/csv',
-                         attachment_filename=filename,
-                         as_attachment=True)
+        file_exists = os.path.isfile(filename)
+        if file_exists:
+            return send_file(filename,
+                             mimetype='text/csv',
+                             attachment_filename=filename,
+                             as_attachment=True)
+        else:
+            result = bety_helper.generate_bety_csv_from_filename(filename)
+            return send_file(result,
+                             mimetype='text/csv',
+                             attachment_filename=filename,
+                             as_attachment=True)
     return app
 
 
