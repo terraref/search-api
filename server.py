@@ -10,6 +10,7 @@ from flask import Flask
 from flask import Flask, render_template, send_file, request, url_for, redirect, make_response
 from flask import jsonify
 from flask_cors import CORS, cross_origin
+from helpers import bety_helper
 import max_bety_sample
 
 
@@ -48,14 +49,18 @@ def create_app():
     def default():
         return "this is the defaultpage"
 
-    @app.route('/download_file/<filename>')
-    def download_file(filename):
-        if str(filename).endswith('.csv'):
-            return send_file(filename,
-                             mimetype='text/csv',
-                             attachment_filename=filename,
-                             as_attachment=True)
+    @app.route('/download_bety_file/<filename>')
+    def download_bety_file(filename):
+        if os.path.isfile(filename):
+            if str(filename).endswith('.csv'):
+                return send_file(filename,
+                                 mimetype='text/csv',
+                                 attachment_filename=filename,
+                                 as_attachment=True)
+            else:
+                result = bety_helper.generate_bety_csv_from_filename(filename)
         else:
+            result = bety_helper.generate_bety_csv_from_filename(filename)
             return 'Nothing'
     return app
 

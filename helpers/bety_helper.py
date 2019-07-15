@@ -4,6 +4,7 @@ import datetime
 from datetime import datetime
 import os
 
+
 bety_api = "https://terraref.ncsa.illinois.edu/bety/api/v1/search"
 bety_key = 'SECRET'
 
@@ -12,12 +13,37 @@ def get_datetime_object(bety_date_string):
     dt_object = datetime.strptime(bety_date_string, '%Y %b %d')
     return dt_object
 
+def generate_bety_csv_from_filename(filename):
+    parts_of_filename = filename.split(' ')
+    product = parts_of_filename[-1].replace('.csv', '')
+    sitename = filename[:filename.index(product)]
+    result = get_trait_sitename(sitename, trait=product, bety_key= os.environ['BETY_KEY'])
+    print('done')
+
+
+def get_bety_search_result(sitename, trait):
+    t = trait.lower().replace(' ', '_')
+    csv_name = "%s %s.csv" % (sitename, t)
+    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
+    apiPort = os.getenv('COUNTER_API_PORT', "5454")
+    download_link = 'http://' + apiIP + ':' + apiPort + '/download_bety_file/' + csv_name
+    download_link = download_link.replace(' ', '%20')
+    return {"name": trait + ' ' + sitename,
+            "view": "https://traitvis.workbench.terraref.org/", "download": download_link}
 
 def get_trait_sitename(sitename, trait, bety_key):
+    t = trait.lower().replace(' ', '_')
+    csv_name = "%s %s.csv" % (sitename, t)
+    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
+    apiPort = os.getenv('COUNTER_API_PORT', "5454")
+    download_link = 'http://' + apiIP + ':' + apiPort + '/download_file/' + csv_name
+    download_link = download_link.replace(' ', '%20')
+
+
     values = []
     column_names = ["date", "sitename", "trait", "trait_description", "mean"]
 
-    t = trait.lower().replace(' ', '_')
+
     offset = 0
     done = False
     while done == False:
@@ -52,16 +78,11 @@ def get_trait_sitename(sitename, trait, bety_key):
 
     df = pd.DataFrame(values, columns=column_names)
     df.sort_values(by=['date'], inplace=True, ascending=True)
-    csv_name = "%s %s.csv" % (sitename, t)
 
     df.to_csv(csv_name, index=False)
-    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
-    apiPort = os.getenv('COUNTER_API_PORT', "5454")
 
-    download_link = 'http://'+apiIP+':'+apiPort+'/download_file/'+csv_name
-    download_link = download_link.replace(' ', '%20')
+    return csv_name
 
-
-    return {"name": trait+' '+sitename,
-            "view": "https://traitvis.workbench.terraref.org/", "download":download_link}
+    # return {"name": trait+' '+sitename,
+    #         "view": "https://traitvis.workbench.terraref.org/", "download":download_link}
 

@@ -29,7 +29,8 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
                 result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date)
                 return {"clowder": result, "bety": []}
         elif str(product) in bety_products:
-            result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
+            #result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
+            result = bety_helper.get_bety_search_result('Season ' + season, trait=product)
             return {"clowder": [], "bety": [result]}
     else:
         return {"clowder": [], "bety": []}
