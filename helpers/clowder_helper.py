@@ -37,7 +37,7 @@ def get_clowder_result_single_date(product, date):
     results = []
 
     dataset_name = product + ' - ' + date
-    # dataset_name = dataset_name.replace(' ', '%20')
+    dataset_name = dataset_name.replace(' ', '%20')
     url = terra_clowder_url + '?title=' + dataset_name
     url = url+'&key='+os.environ['CLOWDER_KEY']
     dataset = requests.get(url)
