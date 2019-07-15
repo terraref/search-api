@@ -18,7 +18,7 @@ def generate_bety_csv_from_filename(filename):
     product = parts_of_filename[-1].replace('.csv', '')
     sitename = filename[:filename.index(product)]
     result = get_trait_sitename(sitename, trait=product, bety_key= os.environ['BETY_KEY'])
-    print('done')
+    return result
 
 
 def get_bety_search_result(sitename, trait):

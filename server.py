@@ -51,21 +51,16 @@ def create_app():
 
     @app.route('/download_bety_file/<filename>')
     def download_bety_file(filename):
-        if os.path.isfile(filename):
-            if str(filename).endswith('.csv'):
-                return send_file(filename,
-                                 mimetype='text/csv',
-                                 attachment_filename=filename,
-                                 as_attachment=True)
-            else:
-                result = bety_helper.generate_bety_csv_from_filename(filename)
-        else:
-            result = bety_helper.generate_bety_csv_from_filename(filename)
-            return 'Nothing'
+        result = bety_helper.generate_bety_csv_from_filename(filename)
+        return send_file(result,
+                         mimetype='text/csv',
+                         attachment_filename=filename,
+                         as_attachment=True)
     return app
 
 
 def main():
+    os.environ['BETY_KEY'] = max_bety_sample.bety_key
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
     logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
