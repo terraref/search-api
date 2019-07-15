@@ -60,7 +60,7 @@ def create_app():
 
 
 def main():
-    os.environ['BETY_KEY'] = max_bety_sample.bety_key
+    #os.environ['BETY_KEY'] = max_bety_sample.bety_key
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
     logger.info("*** API now listening on %s:%s ***" % (apiIP, apiPort))
