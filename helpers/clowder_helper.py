@@ -1,10 +1,13 @@
 import requests
 import os
 import datetime
+import json
 
 terra_clowder_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
+
+sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
 
 def datetime_to_str_date(dt):
     dt = str(dt)
@@ -25,7 +28,7 @@ def get_date_range(start_date, end_date):
 
 def get_clowder_result_date_range(product, start_date, end_date):
     results = []
-
+    return sample_data
     date_range = get_date_range(start_date, end_date)
 
     for each_date in date_range:
@@ -35,11 +38,15 @@ def get_clowder_result_date_range(product, start_date, end_date):
 
 def get_clowder_result_single_date(product, date):
     results = []
-
+    return sample_data
     dataset_name = product + ' - ' + date
     dataset_name = dataset_name.replace(' ', '%20')
     url = terra_clowder_url + '?title=' + dataset_name
     url = url+'&key='+os.environ['CLOWDER_KEY']
+    print('getting results for url : ', url)
+
+
+
     dataset = requests.get(url)
     ds = dataset.json()
 
@@ -51,9 +58,8 @@ def get_clowder_result_single_date(product, date):
             download_link = terra_clowder_url+'/'+current_id
             result = {"name": current_name, "view": current_dataset_url, "download": download_link}
             results.append(result)
+        with open('results.json', 'w') as f:
+            f.write(results, f)
         return results
 
-
-    if dataset.raise_for_status == 200:
-        print('got a dataset')
     return results
