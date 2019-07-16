@@ -8,6 +8,8 @@ import os
 bety_api = "https://terraref.ncsa.illinois.edu/bety/api/v1/search"
 bety_key = 'SECRET'
 
+ignore_fields = ['result_type','id','citation_year','time','raw_date', 'month','year','dateloc']
+
 
 def get_datetime_object(bety_date_string):
     if '(America/Phoenix)' in bety_date_string:
@@ -40,17 +42,13 @@ def get_trait_sitename(sitename, trait, bety_key):
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
     download_link = 'http://' + apiIP + ':' + apiPort + '/download_file/' + csv_name
-    download_link = download_link.replace(' ', '%20')
-
 
     values = []
-    column_names = ["date", "sitename", "trait", "trait_description", "mean"]
     full_column_names = []
-
 
     offset = 0
     done = False
-    while done == False:
+    while not done:
         full_url = "%s?trait=%s&sitename=~%s&limit=10000&offset=%skey=%s" % (bety_api, t, sitename, offset, bety_key)
         r = requests.get(full_url, timeout=None)
         if r.status_code == 200:
@@ -65,8 +63,14 @@ def get_trait_sitename(sitename, trait, bety_key):
                     current_row = []
                     row_keys = list(current_entry_dict.keys())
                     if full_column_names == []:
-                        full_column_names = row_keys
-                    for each in row_keys:
+                        for k in row_keys:
+                            if k.endswith('_id'):
+                                pass
+                            if k in ignore_fields:
+                                pass
+                            else:
+                                full_column_names.append(k)
+                    for each in full_column_names:
                         current_value = current_entry_dict[each]
                         current_row.append(current_value)
                     values.append(current_row)
@@ -84,7 +88,7 @@ def get_trait_sitename(sitename, trait, bety_key):
                         current_entry_dict["date"] = current_dt_object
                         current_row = []
                         row_keys = list(current_entry_dict.keys())
-                        if full_column_names == []:
+                        if full_column_names is []:
                             full_column_names = row_keys
                         for each in row_keys:
                             current_value = current_entry_dict[each]
