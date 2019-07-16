@@ -10,6 +10,9 @@ bety_key = 'SECRET'
 
 
 def get_datetime_object(bety_date_string):
+    if '(America/Phoenix)' in bety_date_string:
+        bety_date_string = bety_date_string.replace('(America/Phoenix)', '')
+        bety_date_string = bety_date_string.rstrip(' ')
     dt_object = datetime.strptime(bety_date_string, '%Y %b %d')
     return dt_object
 
