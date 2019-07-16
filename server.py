@@ -79,6 +79,9 @@ def main():
 
 
 if __name__ == '__main__':
+
+    os.environ['TEST'] = 'False'
+
     debug = False
     logger = logging.getLogger('search-api')
     logger.setLevel('INFO')
