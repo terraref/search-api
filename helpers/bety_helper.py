@@ -8,7 +8,11 @@ import os
 bety_api = "https://terraref.ncsa.illinois.edu/bety/api/v1/search"
 bety_key = 'SECRET'
 
-ignore_fields = ['result_type','id','citation_year','time','raw_date', 'month','year','dateloc']
+ignore_fields = ['citation_id', 'site_id', 'treatment_id', 'city', 'result_type', 'citation_year', 'id',
+                 'commonname', 'genus', 'species_id', 'cultivar_id', 'author', 'n',
+                 'statname', 'stat', 'notes', 'access_level', 'entity', 'method_name',
+                 'view_url', 'edit_url',
+                 'time', 'raw_date', 'month', 'year', 'dateloc']
 
 
 def get_datetime_object(bety_date_string):
@@ -60,12 +64,12 @@ def get_trait_sitename(sitename, trait, bety_key):
                     current_date = current_entry_dict["date"]
                     current_dt_object = get_datetime_object(current_date)
                     current_entry_dict["date"] = current_dt_object
+                    current_entry_dict["plot"] = current_entry_dict["sitename"]
+                    current_entry_dict["method"] = current_entry_dict["method_name"]
                     current_row = []
                     row_keys = list(current_entry_dict.keys())
                     if full_column_names == []:
                         for k in row_keys:
-                            if k.endswith('_id'):
-                                pass
                             if k in ignore_fields:
                                 pass
                             else:
@@ -88,9 +92,13 @@ def get_trait_sitename(sitename, trait, bety_key):
                         current_entry_dict["date"] = current_dt_object
                         current_row = []
                         row_keys = list(current_entry_dict.keys())
-                        if full_column_names is []:
-                            full_column_names = row_keys
-                        for each in row_keys:
+                        if full_column_names == []:
+                            for k in row_keys:
+                                if k in ignore_fields:
+                                    pass
+                                else:
+                                    full_column_names.append(k)
+                        for each in full_column_names:
                             current_value = current_entry_dict[each]
                             current_row.append(current_value)
                         values.append(current_row)
