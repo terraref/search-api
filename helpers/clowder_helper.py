@@ -38,14 +38,11 @@ def get_clowder_result_date_range(product, start_date, end_date):
 
 def get_clowder_result_single_date(product, date):
     results = []
-    return sample_data
     dataset_name = product + ' - ' + date
     dataset_name = dataset_name.replace(' ', '%20')
     url = terra_clowder_url + '?title=' + dataset_name
     url = url+'&key='+os.environ['CLOWDER_KEY']
     print('getting results for url : ', url)
-
-
 
     dataset = requests.get(url)
     ds = dataset.json()

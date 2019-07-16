@@ -42,6 +42,7 @@ def get_trait_sitename(sitename, trait, bety_key):
 
     values = []
     column_names = ["date", "sitename", "trait", "trait_description", "mean"]
+    full_column_names = []
 
 
     offset = 0
@@ -53,10 +54,18 @@ def get_trait_sitename(sitename, trait, bety_key):
             data = r.json()["data"]
             if offset == 0:
                 for entry in data:
-                    vals = entry["traits_and_yields_view"]
-                    current_dt = get_datetime_object(vals["date"])
-                    current_row = [current_dt, vals["sitename"], vals["trait"], vals["trait_description"],
-                                   vals["mean"]]
+                    keys = list(entry.keys())
+                    current_entry_dict = entry[keys[0]]
+                    current_date = current_entry_dict["date"]
+                    current_dt_object = get_datetime_object(current_date)
+                    current_entry_dict["date"] = current_dt_object
+                    current_row = []
+                    row_keys = list(current_entry_dict.keys())
+                    if full_column_names == []:
+                        full_column_names = row_keys
+                    for each in row_keys:
+                        current_value = current_entry_dict[each]
+                        current_row.append(current_value)
                     values.append(current_row)
                 if len(data) < 10000:
                     done = True
@@ -65,10 +74,18 @@ def get_trait_sitename(sitename, trait, bety_key):
             else:
                 if len(data > 0):
                     for entry in data:
-                        vals = entry["traits_and_yields_view"]
-                        current_dt = get_datetime_object(vals["date"])
-                        current_row = [current_dt, vals["sitename"], vals["trait"], vals["trait_description"],
-                                       vals["mean"]]
+                        keys = list(entry.keys())
+                        current_entry_dict = entry[keys[0]]
+                        current_date = current_entry_dict["date"]
+                        current_dt_object = get_datetime_object(current_date)
+                        current_entry_dict["date"] = current_dt_object
+                        current_row = []
+                        row_keys = list(current_entry_dict.keys())
+                        if full_column_names == []:
+                            full_column_names = row_keys
+                        for each in row_keys:
+                            current_value = current_entry_dict[each]
+                            current_row.append(current_value)
                         values.append(current_row)
 
             if len(data) < 10000:
@@ -76,7 +93,7 @@ def get_trait_sitename(sitename, trait, bety_key):
             else:
                 offset += 10000
 
-    df = pd.DataFrame(values, columns=column_names)
+    df = pd.DataFrame(values, columns=full_column_names)
     df.sort_values(by=['date'], inplace=True, ascending=True)
 
     df.to_csv(csv_name, index=False)
