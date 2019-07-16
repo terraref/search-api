@@ -28,7 +28,6 @@ def get_date_range(start_date, end_date):
 
 def get_clowder_result_date_range(product, start_date, end_date):
     results = []
-    return sample_data
     date_range = get_date_range(start_date, end_date)
 
     for each_date in date_range:
@@ -44,8 +43,11 @@ def get_clowder_result_single_date(product, date):
     url = url+'&key='+os.environ['CLOWDER_KEY']
     print('getting results for url : ', url)
 
-    dataset = requests.get(url)
-    ds = dataset.json()
+    if os.environ['TEST'] == 'True':
+        ds = sample_data
+    else:
+        dataset_data = requests.get(url)
+        ds = dataset_data.json()
 
     if type(ds) == list:
         for each in ds:
@@ -55,8 +57,6 @@ def get_clowder_result_single_date(product, date):
             download_link = terra_clowder_url+'/'+current_id
             result = {"name": current_name, "view": current_dataset_url, "download": download_link}
             results.append(result)
-        with open('results.json', 'w') as f:
-            f.write(results, f)
         return results
 
     return results
