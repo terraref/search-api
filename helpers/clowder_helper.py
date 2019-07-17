@@ -17,7 +17,7 @@ def get_date_range(start_date, end_date):
     start_date_object =  datetime.datetime.strptime(start_date, '%Y-%m-%d')
     end_date_object = datetime.datetime.strptime(end_date, '%Y-%m-%d')
     num_of_days = (end_date_object - start_date_object).days
-    daterange = [start_date_object + datetime.timedelta(days=x) for x in range(0, num_of_days)]
+    daterange = [start_date_object + datetime.timedelta(days=x) for x in range(0, num_of_days+1)]
 
     result = []
     for each in daterange:

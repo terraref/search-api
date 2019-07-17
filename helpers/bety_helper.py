@@ -45,7 +45,6 @@ def get_trait_sitename(sitename, trait, bety_key):
     csv_name = "%s%s.csv" % (sitename, t)
     apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
     apiPort = os.getenv('COUNTER_API_PORT', "5454")
-    download_link = 'http://' + apiIP + ':' + apiPort + '/download_file/' + csv_name
 
     values = []
     full_column_names = []
