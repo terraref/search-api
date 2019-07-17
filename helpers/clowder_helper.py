@@ -9,9 +9,11 @@ terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets
 
 sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
 
+
 def datetime_to_str_date(dt):
     dt = str(dt)
     return dt[:dt.index(' ')]
+
 
 def get_date_range(start_date, end_date):
     start_date_object =  datetime.datetime.strptime(start_date, '%Y-%m-%d')
@@ -26,6 +28,7 @@ def get_date_range(start_date, end_date):
 
     return result
 
+
 def get_clowder_result_date_range(product, start_date, end_date):
     results = []
     date_range = get_date_range(start_date, end_date)
@@ -34,6 +37,7 @@ def get_clowder_result_date_range(product, start_date, end_date):
         results_for_date = get_clowder_result_single_date(product, each_date)
         results.extend(results_for_date)
     return results
+
 
 def get_clowder_result_single_date(product, date):
     results = []
@@ -58,5 +62,4 @@ def get_clowder_result_single_date(product, date):
             result = {"name": current_name, "view": current_dataset_url, "download": download_link}
             results.append(result)
         return results
-
     return results
