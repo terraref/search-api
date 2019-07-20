@@ -5,6 +5,8 @@ import json
 
 terra_clowder_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 
+terra_clowder_search_url = 'https://terraref.ncsa.illinois.edu/clowder/api/search?query=name:'
+
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
 
 sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
@@ -45,12 +47,13 @@ def get_clowder_result_single_date(product, date):
     dataset_name = dataset_name.replace(' ', '%20')
     url = terra_clowder_url + '?title=' + dataset_name
     url = url+'&key='+os.environ['CLOWDER_KEY']
-    print('getting results for url : ', url)
+    current_search_url = terra_clowder_search_url+dataset_name+'&resource_type=dataset&key='+os.environ['CLOWDER_KEY']
+    print('getting results for url : ', current_search_url)
 
     if os.environ['TEST'] == 'True':
         ds = sample_data
     else:
-        dataset_data = requests.get(url)
+        dataset_data = requests.get(current_search_url)
         ds = dataset_data.json()
 
     if type(ds) == list:
