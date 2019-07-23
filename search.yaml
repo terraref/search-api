@@ -110,6 +110,46 @@ paths:
                 type: string
               example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
                 to perform this action
+  /cultivars:
+    get:
+      tags:
+        - Cultivars
+      summary: Get Cultivars
+      description: Cultivars method.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cultivars'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+
   /products:
     get:
       tags:
@@ -390,6 +430,8 @@ paths:
                 to perform this action
 components:
   schemas:
+    cultivars:
+      type: array
     germplasm:
       required:
         - germplasmName
