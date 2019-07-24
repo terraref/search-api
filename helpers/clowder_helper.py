@@ -2,6 +2,7 @@ import requests
 import os
 import datetime
 import json
+import pandas as pd
 
 terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
@@ -13,6 +14,21 @@ terra_clowder_search_url = 'https://terraref.ncsa.illinois.edu/clowder/api/searc
 
 sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
 
+cultivars_season_4_csv = 'cultivars_s4_2017.csv'
+cultivars_season_6_csv = 'cultivars_s6_2018.csv'
+
+
+def get_cultivar_sitename_map(season):
+    if season == 'Season 6':
+        df = pd.read_csv(cultivars_season_6_csv, usecols=['sitename', 'cultivar'])
+        df = df[['cultivar', 'sitename']]
+        result = df.to_dict(orient='records')
+        return result
+    elif season == 'Season 4':
+        df = pd.read_csv(cultivars_season_4_csv, usecols=['sitename', 'cultivar'])
+        df = df[['cultivar', 'sitename']]
+        result = df.to_dict(orient='records')
+        return result
 
 def datetime_to_str_date(dt):
     dt = str(dt)

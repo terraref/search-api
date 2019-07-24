@@ -14,6 +14,8 @@ bety_products = ['Canopy Cover', 'Canopy Height', 'Mean Temperature']
 clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS',
                     'Full Field RGB Images', 'Full Field IR Images']
 
+season_4_cultivar_sitename_map = clowder_helper.get_cultivar_sitename_map('Season 4')
+season_6_cultivar_sitename_map = clowder_helper.get_cultivar_sitename_map('Season 6')
 
 def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmendId=None, product=None, pageSize=None, page=None):
     if season:
