@@ -27,7 +27,7 @@ def get_cultivar_sitename_map(season):
             reader = csv.reader(f)
             line_count = 0
             for row in reader:
-                if line_count == 0:
+                if row[0] == 'sitename':
                     pass
                 else:
                     current_sitename = row[0]
@@ -36,8 +36,12 @@ def get_cultivar_sitename_map(season):
                         old_value = cultivar_site_map[current_cultivar]
                         if old_value is None:
                             old_value = []
-                        new_value = old_value.append(current_sitename)
-                        cultivar_site_map[current_cultivar] = new_value
+                            new_value = old_value.append(current_sitename)
+                            cultivar_site_map[current_cultivar] = new_value
+                        else:
+                            new_value = old_value
+                            new_value.append(current_sitename)
+                            cultivar_site_map[current_cultivar] = new_value
                     else:
                         cultivar_site_map[current_cultivar] = [current_sitename]
                 line_count += 1
@@ -45,9 +49,8 @@ def get_cultivar_sitename_map(season):
         cultivar_site_map = {}
         with open(cultivars_season_4_csv, 'r') as f:
             reader = csv.reader(f)
-            line_count = 0
             for row in reader:
-                if line_count == 0:
+                if row[0] == 'sitename':
                     pass
                 else:
                     current_sitename = row[0]
@@ -56,11 +59,14 @@ def get_cultivar_sitename_map(season):
                         old_value = cultivar_site_map[current_cultivar]
                         if old_value is None:
                             old_value = []
-                        new_value = old_value.append(current_sitename)
-                        cultivar_site_map[current_cultivar] = new_value
+                            new_value = old_value.append(current_sitename)
+                            cultivar_site_map[current_cultivar] = new_value
+                        else:
+                            new_value = old_value
+                            new_value.append(current_sitename)
+                            cultivar_site_map[current_cultivar] = new_value
                     else:
                         cultivar_site_map[current_cultivar] = [current_sitename]
-                line_count += 1
     return cultivar_site_map
 
 def datetime_to_str_date(dt):

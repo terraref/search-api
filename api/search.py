@@ -17,6 +17,12 @@ clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS
 season_4_cultivar_sitename_map = clowder_helper.get_cultivar_sitename_map('Season 4')
 season_6_cultivar_sitename_map = clowder_helper.get_cultivar_sitename_map('Season 6')
 
+def get_sites_for_cultivar(cultivar, current_map):
+    if cultivar not in current_map:
+        return []
+    else:
+        return current_map[cultivar]
+
 def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmendId=None, product=None, pageSize=None, page=None):
     if season:
         pass
@@ -27,14 +33,26 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
         if str(product) in clowder_products:
             if date:
                 if germplasmName:
-                    result = clowder_helper.get_clowder_result_single_date(product, date)
+                    if season == '6':
+                        sites = get_sites_for_cultivar(germplasmName, season_6_cultivar_sitename_map)
+                    elif season == '4':
+                        sites = get_sites_for_cultivar(germplasmName, season_4_cultivar_sitename_map)
+                    result = clowder_helper.get_clowder_result_single_date(product, date, sites)
                     return {"clowder": result, "bety": []}
                 else:
                     result = clowder_helper.get_clowder_result_single_date(product, date)
                     return {"clowder": result, "bety": []}
             elif start_date and end_date:
-                result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date)
-                return {"clowder": result, "bety": []}
+                if germplasmName:
+                    if season == '6':
+                        sites = get_sites_for_cultivar(germplasmName, season_6_cultivar_sitename_map)
+                    elif season == '4':
+                        sites = get_sites_for_cultivar(germplasmName, season_4_cultivar_sitename_map)
+                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, sites)
+                    return {"clowder": result, "bety": []}
+                else:
+                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date)
+                    return {"clowder": result, "bety": []}
             else:
                 return abort(400, "Need start_date and end_date for product : " + product)
         elif str(product) in bety_products:
