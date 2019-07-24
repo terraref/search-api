@@ -3,6 +3,7 @@ import os
 import datetime
 import json
 import pandas as pd
+import csv
 
 terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
@@ -21,15 +22,46 @@ cultivars_season_6_csv = 'cultivars_s6_2018.csv'
 def get_cultivar_sitename_map(season):
 
     if season == 'Season 6':
-        df = pd.read_csv(cultivars_season_6_csv, usecols=['sitename', 'cultivar'])
-        df = df[['cultivar', 'sitename']]
-        result = df.to_dict(orient='records')
-        return result
+        cultivar_site_map = {}
+        with open(cultivars_season_6_csv, 'r') as f:
+            reader = csv.reader(f)
+            line_count = 0
+            for row in reader:
+                if line_count == 0:
+                    pass
+                else:
+                    current_sitename = row[0]
+                    current_cultivar = row[1]
+                    if current_cultivar in cultivar_site_map:
+                        old_value = cultivar_site_map[current_cultivar]
+                        if old_value is None:
+                            old_value = []
+                        new_value = old_value.append(current_sitename)
+                        cultivar_site_map[current_cultivar] = new_value
+                    else:
+                        cultivar_site_map[current_cultivar] = [current_sitename]
+                line_count += 1
     elif season == 'Season 4':
-        df = pd.read_csv(cultivars_season_4_csv, usecols=['sitename', 'cultivar'])
-        df = df[['cultivar', 'sitename']]
-        result = df.to_dict(orient='records')
-        return result
+        cultivar_site_map = {}
+        with open(cultivars_season_4_csv, 'r') as f:
+            reader = csv.reader(f)
+            line_count = 0
+            for row in reader:
+                if line_count == 0:
+                    pass
+                else:
+                    current_sitename = row[0]
+                    current_cultivar = row[1]
+                    if current_cultivar in cultivar_site_map:
+                        old_value = cultivar_site_map[current_cultivar]
+                        if old_value is None:
+                            old_value = []
+                        new_value = old_value.append(current_sitename)
+                        cultivar_site_map[current_cultivar] = new_value
+                    else:
+                        cultivar_site_map[current_cultivar] = [current_sitename]
+                line_count += 1
+    return cultivar_site_map
 
 def datetime_to_str_date(dt):
     dt = str(dt)
@@ -50,7 +82,7 @@ def get_date_range(start_date, end_date):
     return result
 
 
-def get_clowder_result_date_range(product, start_date, end_date):
+def get_clowder_result_date_range(product, start_date, end_date, sitenames = []):
     results = []
     date_range = get_date_range(start_date, end_date)
 
@@ -60,7 +92,7 @@ def get_clowder_result_date_range(product, start_date, end_date):
     return results
 
 
-def get_clowder_result_single_date(product, date):
+def get_clowder_result_single_date(product, date, sitename = []):
     results = []
     current_search_url = terra_clowder_search_url+'name:'+product+' name:'+date+'&key='+os.environ['CLOWDER_KEY']
     print('getting results for url : ', current_search_url)
