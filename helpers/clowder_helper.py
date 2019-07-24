@@ -3,11 +3,13 @@ import os
 import datetime
 import json
 
-terra_clowder_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
-
-terra_clowder_search_url = 'https://terraref.ncsa.illinois.edu/clowder/api/search?query=name:'
-
+terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
+
+terra_clowder_collections_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
+terra_clowder_collection_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
+
+terra_clowder_search_url = 'https://terraref.ncsa.illinois.edu/clowder/api/search?query='
 
 sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
 
@@ -43,26 +45,39 @@ def get_clowder_result_date_range(product, start_date, end_date):
 
 def get_clowder_result_single_date(product, date):
     results = []
-    dataset_name = product + ' - ' + date
-    dataset_name = dataset_name.replace(' ', '%20')
-    url = terra_clowder_url + '?title=' + dataset_name
-    url = url+'&key='+os.environ['CLOWDER_KEY']
-    current_search_url = terra_clowder_search_url+dataset_name+'&resource_type=dataset&key='+os.environ['CLOWDER_KEY']
+    current_search_url = terra_clowder_search_url+'name:'+product+' name:'+date+'&key='+os.environ['CLOWDER_KEY']
     print('getting results for url : ', current_search_url)
 
     if os.environ['TEST'] == 'True':
-        ds = sample_data
-    else:
-        dataset_data = requests.get(current_search_url)
-        ds = dataset_data.json()
-
-    if type(ds) == list:
-        for each in ds:
+        for each in sample_data:
             current_id = each['id']
             current_name = each['name']
-            current_dataset_url = terra_clowder_dataset_url+'/'+current_id
-            download_link = terra_clowder_url+'/'+current_id
+            current_dataset_url = terra_clowder_dataset_url + '/' + current_id
+            download_link = terra_clowder_datasets_api_url + '/' + current_id
             result = {"name": current_name, "view": current_dataset_url, "download": download_link}
             results.append(result)
+        return results
+    else:
+        r = requests.get(current_search_url)
+        seach_results = r.json()
+
+    datasets_found = seach_results['datasets']
+    collections_found = seach_results['collections']
+
+    for each in datasets_found:
+        current_id = each['id']
+        current_name = each['name']
+        current_dataset_url = terra_clowder_dataset_url + '/' + current_id
+        download_link = terra_clowder_datasets_api_url + '/' + current_id
+        result = {"name": current_name, "view": current_dataset_url, "download": download_link}
+        results.append(result)
+
+    for each in collections_found:
+        current_id = each['id']
+        current_name = each['name']
+        current_dataset_url = terra_clowder_collection_url + '/' + current_id
+        download_link = terra_clowder_collections_api_url + '/' + current_id
+        result = {"name": current_name, "view": current_dataset_url, "download": download_link}
+        results.append(result)
         return results
     return results
