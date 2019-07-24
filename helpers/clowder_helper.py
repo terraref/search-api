@@ -65,6 +65,7 @@ def get_clowder_result_single_date(product, date):
     collections_found = seach_results['collections']
 
     if len(datasets_found) == 0 and len(collections_found) == 0:
+        print('nothing found, using dummy placeholder data')
         datasets_found = sample_data
 
     for each in datasets_found:
