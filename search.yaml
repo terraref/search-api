@@ -236,9 +236,9 @@ paths:
         explode: true
         schema:
           type: string
-      - name: germplasmId
+      - name: germplasmName
         in: query
-        description: Filter by program germplasmId.
+        description: Filter by program germplasmName.
         required: false
         style: form
         explode: true

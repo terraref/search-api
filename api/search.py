@@ -15,7 +15,7 @@ clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS
                     'Full Field RGB Images', 'Full Field IR Images']
 
 
-def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmendId=None, product=None, pageSize=None, page=None):
     if season:
         pass
     else:
@@ -24,6 +24,7 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
     if product:
         if str(product) in clowder_products:
             if date:
+
                 result = clowder_helper.get_clowder_result_single_date(product, date)
                 return {"clowder": result, "bety": []}
             elif start_date and end_date:
@@ -38,9 +39,9 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
         else:
             return abort(400, "No product matches " + product)
     else:
-        if not (experimentId or germplasmId or treatmendId):
+        if not (experimentId or germplasmName or treatmendId):
             return abort(400, "Correct search parameters not provided")
         return {"clowder": [], "bety": []}
 
-def get(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmId=None, treatmendId=None, product=None, pageSize=None, page=None):
+def get(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmendId=None, product=None, pageSize=None, page=None):
     return "this is the page"
