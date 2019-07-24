@@ -1,16 +1,5 @@
 [
   {
-    "seasonname": "Season 0",
-    "startdate": "2015-01-01",
-    "enddate": "2015-04-30"
-
-  },
-  {
-    "seasonname": "Season 1",
-    "startdate": "2015-05-01",
-    "enddate": "2015-09-30"
-  },
-  {
     "seasonname": "Season 4",
     "startdate": "2017-04-20",
     "enddate": "2017-09-18"
