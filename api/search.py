@@ -24,9 +24,12 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
     if product:
         if str(product) in clowder_products:
             if date:
-
-                result = clowder_helper.get_clowder_result_single_date(product, date)
-                return {"clowder": result, "bety": []}
+                if germplasmName:
+                    result = clowder_helper.get_clowder_result_single_date(product, date)
+                    return {"clowder": result, "bety": []}
+                else:
+                    result = clowder_helper.get_clowder_result_single_date(product, date)
+                    return {"clowder": result, "bety": []}
             elif start_date and end_date:
                 result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date)
                 return {"clowder": result, "bety": []}
