@@ -19,6 +19,7 @@ cultivars_season_6_csv = 'cultivars_s6_2018.csv'
 
 
 def get_cultivar_sitename_map(season):
+
     if season == 'Season 6':
         df = pd.read_csv(cultivars_season_6_csv, usecols=['sitename', 'cultivar'])
         df = df[['cultivar', 'sitename']]
