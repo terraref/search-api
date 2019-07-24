@@ -64,6 +64,9 @@ def get_clowder_result_single_date(product, date):
     datasets_found = seach_results['datasets']
     collections_found = seach_results['collections']
 
+    if len(datasets_found) == 0 and len(collections_found) == 0:
+        datasets_found = sample_data
+
     for each in datasets_found:
         current_id = each['id']
         current_name = each['name']
