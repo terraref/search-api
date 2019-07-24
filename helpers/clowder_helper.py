@@ -2,7 +2,6 @@ import requests
 import os
 import datetime
 import json
-import pandas as pd
 import csv
 
 terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
@@ -17,6 +16,14 @@ sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
 
 cultivars_season_4_csv = 'cultivars_s4_2017.csv'
 cultivars_season_6_csv = 'cultivars_s6_2018.csv'
+
+clowder_products_dataset_name_map = {
+    'RGB GeoTIFFs' : 'rgb_geotiff',
+    'Thermal IR GeoTIFFs':'ir_geotiff',
+    'Laser Scanner 3D LAS':'laser3d_las',
+    'Full Field RGB Images':'rgb_fullfield',
+    'Full Field IR Images':'ir_fullfield'
+}
 
 
 def get_cultivar_sitename_map(season):
@@ -88,7 +95,7 @@ def get_date_range(start_date, end_date):
     return result
 
 
-def get_clowder_result_date_range(product, start_date, end_date, sitenames = []):
+def get_clowder_result_date_range(product, start_date, end_date, sites = []):
     results = []
     date_range = get_date_range(start_date, end_date)
 
@@ -98,9 +105,12 @@ def get_clowder_result_date_range(product, start_date, end_date, sitenames = [])
     return results
 
 
-def get_clowder_result_single_date(product, date, sitename = []):
+def get_clowder_result_single_date(product, date, sites = []):
+
+    dataset_name = clowder_products_dataset_name_map[product]
+
     results = []
-    current_search_url = terra_clowder_search_url+'name:'+product+' name:'+date+'&key='+os.environ['CLOWDER_KEY']
+    current_search_url = terra_clowder_search_url+'name:'+dataset_name+' name:'+date+'&key='+os.environ['CLOWDER_KEY']
     print('getting results for url : ', current_search_url)
 
     if os.environ['TEST'] == 'True':
