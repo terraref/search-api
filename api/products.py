@@ -4,34 +4,13 @@ clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS
                     'Full Field RGB Images', 'Full Field IR Images']
 
 
-full_products = []
-
 def search():
-    for each in bety_products:
-        entry = {}
-        entry['product_type'] = 'bety'
-        entry['name'] = each
-        full_products.append(each)
-
-    for each in clowder_products:
-        entry = {}
-        entry['product_type'] = 'clowder'
-        entry['name'] = each
-        full_products.append(each)
+    full_products = bety_products + clowder_products
     return full_products
 
-def get():
-    for each in bety_products:
-        entry = {}
-        entry['product_type'] = 'bety'
-        entry['name'] = each
-        full_products.append(each)
 
-    for each in clowder_products:
-        entry = {}
-        entry['product_type'] = 'clowder'
-        entry['name'] = each
-        full_products.append(each)
+def get():
+    full_products = bety_products + clowder_products
     return full_products
 
 

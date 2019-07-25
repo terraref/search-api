@@ -148,5 +148,4 @@ def get_clowder_result_single_date(product, date, sites = []):
         download_link = terra_clowder_collections_api_url + '/' + current_id
         result = {"name": current_name, "view": current_dataset_url, "download": download_link}
         results.append(result)
-        return results
     return results
