@@ -189,6 +189,45 @@ paths:
                 type: string
               example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
                 to perform this action
+  /sites:
+    get:
+      tags:
+        - Sites
+      summary: Get sites
+      description: Sites api method.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sites'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
   /search:
     get:
       tags:
@@ -335,6 +374,7 @@ paths:
                 type: string
               example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
                 to perform this action
+
   /seasons:
     get:
       tags:
@@ -456,6 +496,17 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/product"
+    site:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "MAC Field Scanner Season 6 Range 1 Column 1"
+    sites:
+      type: array
+      items:
+        $ref: "#components/schemas/site"
     betySearchResult:
       properties:
         name:
