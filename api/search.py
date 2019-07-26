@@ -40,7 +40,8 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
                     result = clowder_helper.get_clowder_result_single_date(product, date, sites)
                     return {"clowder": result, "bety": []}
                 else:
-                    result = clowder_helper.get_clowder_result_single_date(product, date)
+                    #result = clowder_helper.get_clowder_result_single_date(product, date)
+                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date)
                     return {"clowder": result, "bety": []}
             elif start_date and end_date:
                 if germplasmName:

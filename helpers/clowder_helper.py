@@ -7,6 +7,8 @@ import csv
 terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
 
+terra_clowder_dataset_metadata_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets/current_id/metadata.jsonld'
+
 terra_clowder_dataset_title_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets?title='
 
 terra_clowder_collections_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
@@ -26,6 +28,12 @@ clowder_products_dataset_name_map = {
     'Full Field RGB Images':'rgb_fullfield',
     'Full Field IR Images':'ir_fullfield'
 }
+
+
+def get_sitename_from_ds_metadata(ds_metadata):
+    site_metadata = ds_metadata['content']['site_metadata']
+    sitename = site_metadata[1]['sitename']
+    return sitename
 
 
 def get_cultivar_sitename_map(season):
@@ -102,14 +110,18 @@ def get_clowder_result_date_range(product, start_date, end_date, sites = []):
     date_range = get_date_range(start_date, end_date)
 
     for each_date in date_range:
-        results_for_date = get_clowder_result_single_date(product, each_date)
+        #new method
+        #results_for_date = get_clowder_result_single_date(product, each_date)
+
+        #old method
+        results_for_date = get_clowder_result_single_date_old_method(product,each_date, sites)
         results.extend(results_for_date)
     return results
 
 
 def get_clowder_result_single_date(product, date, sites = []):
 
-    dataset_name = clowder_products_dataset_name_map[product]
+    dataset_name = product
 
     results = []
     current_search_url = terra_clowder_search_url+'name:'+dataset_name+' name:'+date+'&key='+os.environ['CLOWDER_KEY']
@@ -155,24 +167,38 @@ def get_clowder_result_single_date(product, date, sites = []):
 
 def get_clowder_result_single_date_old_method(product, date, sites =[]):
     results = []
-    dataset_name = clowder_products_dataset_name_map[product] + ' - ' + date
+    dataset_name = product + ' - ' + date
 
     url = terra_clowder_dataset_title_url + dataset_name + '&key='+os.environ['CLOWDER_KEY']
 
     if os.environ['TEST'] == 'True':
         ds = sample_data
     else:
+        print('getting results for ', url)
         dataset_data = requests.get(url)
         ds = dataset_data.json()
 
     if type(ds) == list:
         for each in ds:
             current_id = each['id']
+            metadata_url = terra_clowder_dataset_metadata_url.replace('current_id',current_id)+'?key='+os.environ['CLOWDER_KEY']
+
+            try:
+                md = requests.get(metadata_url)
+            except Exception as e:
+                print(e)
+            if md.status_code == 200:
+                md_json = md.json()
+                current_sitename = get_sitename_from_ds_metadata(md_json[0])
             current_name = each['name']
             current_dataset_url = terra_clowder_dataset_url+'/'+current_id
             download_link = terra_clowder_datasets_api_url+'/'+current_id
             result = {"name": current_name, "view": current_dataset_url, "download": download_link}
-            results.append(result)
+            if len(sites) > 0:
+                if current_sitename in sites:
+                    results.append(result)
+            else:
+                results.append(result)
         return results
 
     return results
