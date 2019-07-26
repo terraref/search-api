@@ -31,8 +31,13 @@ clowder_products_dataset_name_map = {
 
 
 def get_sitename_from_ds_metadata(ds_metadata):
-    site_metadata = ds_metadata['content']['site_metadata']
-    sitename = site_metadata[1]['sitename']
+    sitename = ''
+    content = ds_metadata['content']
+    site_metadata = content['site_metadata']
+    for entry in site_metadata:
+        if type(entry) == dict:
+            if 'sitename' in entry:
+                sitename = entry['sitename']
     return sitename
 
 
