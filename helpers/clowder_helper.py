@@ -7,6 +7,8 @@ import csv
 terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
 
+terra_clowder_dataset_title_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets?title='
+
 terra_clowder_collections_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_collection_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
 
@@ -148,4 +150,29 @@ def get_clowder_result_single_date(product, date, sites = []):
         download_link = terra_clowder_collections_api_url + '/' + current_id
         result = {"name": current_name, "view": current_dataset_url, "download": download_link}
         results.append(result)
+    return results
+
+
+def get_clowder_result_single_date_old_method(product, date, sites =[]):
+    results = []
+    dataset_name = clowder_products_dataset_name_map[product] + ' - ' + date
+
+    url = terra_clowder_dataset_title_url + dataset_name + '&key='+os.environ['CLOWDER_KEY']
+
+    if os.environ['TEST'] == 'True':
+        ds = sample_data
+    else:
+        dataset_data = requests.get(url)
+        ds = dataset_data.json()
+
+    if type(ds) == list:
+        for each in ds:
+            current_id = each['id']
+            current_name = each['name']
+            current_dataset_url = terra_clowder_dataset_url+'/'+current_id
+            download_link = terra_clowder_datasets_api_url+'/'+current_id
+            result = {"name": current_name, "view": current_dataset_url, "download": download_link}
+            results.append(result)
+        return results
+
     return results
