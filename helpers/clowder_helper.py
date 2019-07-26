@@ -188,22 +188,26 @@ def get_clowder_result_single_date_old_method(product, date, sites =[]):
             current_id = each['id']
             metadata_url = terra_clowder_dataset_metadata_url.replace('current_id',current_id)+'?key='+os.environ['CLOWDER_KEY']
 
-            try:
-                md = requests.get(metadata_url)
-            except Exception as e:
-                print(e)
-            if md.status_code == 200:
-                md_json = md.json()
-                current_sitename = get_sitename_from_ds_metadata(md_json[0])
-            current_name = each['name']
-            current_dataset_url = terra_clowder_dataset_url+'/'+current_id
-            download_link = terra_clowder_datasets_api_url+'/'+current_id
-            result = {"name": current_name, "view": current_dataset_url, "download": download_link}
             if len(sites) > 0:
-                if current_sitename in sites:
-                    results.append(result)
+                try:
+                    md = requests.get(metadata_url)
+                except Exception as e:
+                    print(e)
+                if md.status_code == 200:
+                    md_json = md.json()
+                    current_sitename = get_sitename_from_ds_metadata(md_json[0])
+                current_name = each['name']
+                current_dataset_url = terra_clowder_dataset_url + '/' + current_id
+                download_link = terra_clowder_datasets_api_url + '/' + current_id
+                result = {"name": current_name, "view": current_dataset_url, "download": download_link}
+                if len(sites) > 0:
+                    if current_sitename in sites:
+                        results.append(result)
             else:
+                current_name = each['name']
+                current_dataset_url = terra_clowder_dataset_url + '/' + current_id
+                download_link = terra_clowder_datasets_api_url + '/' + current_id
+                result = {"name": current_name, "view": current_dataset_url, "download": download_link}
                 results.append(result)
         return results
-
     return results
