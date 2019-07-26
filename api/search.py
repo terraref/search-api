@@ -23,7 +23,7 @@ def get_sites_for_cultivar(cultivar, current_map):
     else:
         return current_map[cultivar]
 
-def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmendId=None, product=None, pageSize=None, page=None):
+def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmendId=None, product=None, sitename=None,pageSize=None, page=None):
     if season:
         pass
     else:
@@ -31,31 +31,38 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
 
     if product:
         if str(product) in clowder_products:
-            if date:
-                if germplasmName:
-                    if season == '6':
-                        sites = get_sites_for_cultivar(germplasmName, season_6_cultivar_sitename_map)
-                    elif season == '4':
-                        sites = get_sites_for_cultivar(germplasmName, season_4_cultivar_sitename_map)
-                    result = clowder_helper.get_clowder_result_single_date(product, date, sites)
+            if germplasmName:
+                if season == '6':
+                    sites = get_sites_for_cultivar(germplasmName, season_6_cultivar_sitename_map)
+                elif season == '4':
+                    sites = get_sites_for_cultivar(germplasmName, season_4_cultivar_sitename_map)
+                if date:
+                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date, sites)
                     return {"clowder": result, "bety": []}
-                else:
-                    #result = clowder_helper.get_clowder_result_single_date(product, date)
-                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date)
-                    return {"clowder": result, "bety": []}
-            elif start_date and end_date:
-                if germplasmName:
-                    if season == '6':
-                        sites = get_sites_for_cultivar(germplasmName, season_6_cultivar_sitename_map)
-                    elif season == '4':
-                        sites = get_sites_for_cultivar(germplasmName, season_4_cultivar_sitename_map)
+                elif start_date and end_date:
                     result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, sites)
                     return {"clowder": result, "bety": []}
                 else:
-                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date)
+                    return abort(400, "Need start_date and end_date for product : " + product)
+
+            elif sitename:
+                if date:
+                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date, [sitename])
                     return {"clowder": result, "bety": []}
+                elif start_date and end_date:
+                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, [sitename])
+                    return {"clowder": result, "bety": []}
+                else:
+                    return abort(400, "Need start_date and end_date for product : " + product)
             else:
-                return abort(400, "Need start_date and end_date for product : " + product)
+                if date:
+                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date, [])
+                    return {"clowder": result, "bety": []}
+                elif start_date and end_date:
+                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, [])
+                    return {"clowder": result, "bety": []}
+                else:
+                    return abort(400, "Need start_date and end_date for product : " + product)
         elif str(product) in bety_products:
             #result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
             result = bety_helper.get_bety_search_result('Season ' + season, trait=product)
