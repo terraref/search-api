@@ -29,6 +29,9 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
     else:
         season = '6'
 
+    if germplasmName and not product:
+        product = 'RGB GeoTIFFs'
+
     if product:
         if str(product) in clowder_products:
             if germplasmName:
