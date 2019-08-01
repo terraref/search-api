@@ -3,6 +3,7 @@ import os
 import datetime
 import json
 import csv
+from helpers import search_helper
 
 terra_clowder_datasets_api_url = 'https://terraref.ncsa.illinois.edu/clowder/api/datasets'
 terra_clowder_dataset_url = 'https://terraref.ncsa.illinois.edu/clowder/datasets'
@@ -170,11 +171,22 @@ def get_clowder_result_single_date(product, date, sites = []):
     return results
 
 
-def get_clowder_result_single_date_old_method(product, date, sites =[]):
+def get_clowder_result_single_date_old_method(product, date, sites =[], user_stored_data=False):
     results = []
     dataset_name = product + ' - ' + date
 
     url = terra_clowder_dataset_title_url + dataset_name + '&key='+os.environ['CLOWDER_KEY']
+
+    if user_stored_data:
+        search_results = search_helper.findDatasetIds(dataset_name)
+        for each in search_results:
+            current_name = each['name']
+            current_id = each["id"]
+            current_dataset_url = terra_clowder_dataset_url + '/' + current_id
+            download_link = terra_clowder_datasets_api_url + '/' + current_id
+            result = {"name": current_name, "view": current_dataset_url, "download": download_link}
+            results.append(result)
+        return results
 
     if os.environ['TEST'] == 'True':
         ds = sample_data
@@ -187,7 +199,6 @@ def get_clowder_result_single_date_old_method(product, date, sites =[]):
         for each in ds:
             current_id = each['id']
             metadata_url = terra_clowder_dataset_metadata_url.replace('current_id',current_id)+'?key='+os.environ['CLOWDER_KEY']
-
             if len(sites) > 0:
                 try:
                     md = requests.get(metadata_url)

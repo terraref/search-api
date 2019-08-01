@@ -1,5 +1,5 @@
 import json
-from helpers import bety_helper, clowder_helper
+from helpers import bety_helper, clowder_helper, search_helper
 import os
 from flask import Flask, Response, abort
 from flask import Flask, render_template, send_file, request, url_for, redirect, make_response
