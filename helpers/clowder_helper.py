@@ -178,12 +178,10 @@ def get_clowder_result_single_date_old_method(product, date, sites =[], use_stor
     dataset_name = product + ' - ' + date
 
     if os.path.isfile(search_list_season_6):
-        print('we have the stored search results file')
-
-    url = terra_clowder_dataset_title_url + dataset_name + '&key='+os.environ['CLOWDER_KEY']
+        use_stored_data = True
 
     if use_stored_data:
-        search_results = search_helper.findDatasetIds(dataset_name)
+        search_results = search_helper.findDatasetsFromCSV(dataset_name, sites)
         for each in search_results:
             current_name = each['name']
             current_id = each["id"]
@@ -193,6 +191,7 @@ def get_clowder_result_single_date_old_method(product, date, sites =[], use_stor
             results.append(result)
         return results
     else:
+        url = terra_clowder_dataset_title_url + dataset_name + '&key=' + os.environ['CLOWDER_KEY']
         print('getting results for ', url)
         dataset_data = requests.get(url)
         ds = dataset_data.json()
