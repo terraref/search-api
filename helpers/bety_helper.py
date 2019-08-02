@@ -34,9 +34,9 @@ def generate_bety_csv_from_filename(filename):
 def get_bety_search_result(sitename, trait):
     t = trait.lower().replace(' ', '_')
     csv_name = "%s %s.csv" % (sitename, t)
-    apiIP = os.getenv('COUNTER_API_IP', "0.0.0.0")
-    apiPort = os.getenv('COUNTER_API_PORT', "5454")
-    download_link = 'http://' + apiIP + ':' + apiPort + '/download_bety_file/' + csv_name
+    apiIP = os.getenv('SEARCH_API_IP', "0.0.0.0")
+
+    download_link = 'https://' + apiIP + '/download_bety_file/' + csv_name
     download_link = download_link.replace(' ', '%20')
     return {"name": trait + ' ' + sitename,
             "view": "https://traitvis.workbench.terraref.org/", "download": download_link}

@@ -178,7 +178,10 @@ def get_clowder_result_single_date_old_method(product, date, sites =[], use_stor
     dataset_name = product + ' - ' + date
 
     if os.path.isfile(search_list_season_6):
+        print("we have the stored search list CSV file")
         use_stored_data = True
+    else:
+        print("the stored search list CSV file was NOT FOUND")
 
     if use_stored_data:
         search_results = search_helper.findDatasetsFromCSV(dataset_name, sites)
