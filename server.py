@@ -11,6 +11,7 @@ from flask import Flask, render_template, send_file, request, url_for, redirect,
 from flask import jsonify
 from flask_cors import CORS, cross_origin
 from helpers import bety_helper
+import local_conf
 
 
 def token_auth(token, required_scopes):
