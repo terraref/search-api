@@ -1,11 +1,11 @@
 import csv
 import os
 
-map_file_name = 'dataset_name_map.csv'
+search_csv = 'search_list_s6.csv'
 
 current_location = os.getcwd()
 
-path_to_map = os.path.join(current_location, map_file_name)
+path_to_map = os.path.join(current_location, 'helpers', search_csv)
 
 
 def findDatasetIds(dataset_name):

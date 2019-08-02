@@ -11,7 +11,6 @@ from flask import Flask, render_template, send_file, request, url_for, redirect,
 from flask import jsonify
 from flask_cors import CORS, cross_origin
 from helpers import bety_helper
-import max_bety_sample
 
 
 def token_auth(token, required_scopes):
@@ -79,8 +78,6 @@ def main():
 
 
 if __name__ == '__main__':
-
-    os.environ['TEST'] = 'False'
 
     debug = False
     logger = logging.getLogger('search-api')

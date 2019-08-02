@@ -22,6 +22,8 @@ sample_data = json.load(open('clowder_dataset_search_results.json', 'r'))
 cultivars_season_4_csv = 'cultivars_s4_2017.csv'
 cultivars_season_6_csv = 'cultivars_s6_2018.csv'
 
+search_list_season_6 = os.path.join(os.getcwd(), 'helpers','search_list_s6.csv')
+
 clowder_products_dataset_name_map = {
     'RGB GeoTIFFs' : 'rgb_geotiff',
     'Thermal IR GeoTIFFs':'ir_geotiff',
@@ -171,13 +173,16 @@ def get_clowder_result_single_date(product, date, sites = []):
     return results
 
 
-def get_clowder_result_single_date_old_method(product, date, sites =[], user_stored_data=False):
+def get_clowder_result_single_date_old_method(product, date, sites =[], use_stored_data=False):
     results = []
     dataset_name = product + ' - ' + date
 
+    if os.path.isfile(search_list_season_6):
+        print('we have the stored search results file')
+
     url = terra_clowder_dataset_title_url + dataset_name + '&key='+os.environ['CLOWDER_KEY']
 
-    if user_stored_data:
+    if use_stored_data:
         search_results = search_helper.findDatasetIds(dataset_name)
         for each in search_results:
             current_name = each['name']
@@ -187,9 +192,6 @@ def get_clowder_result_single_date_old_method(product, date, sites =[], user_sto
             result = {"name": current_name, "view": current_dataset_url, "download": download_link}
             results.append(result)
         return results
-
-    if os.environ['TEST'] == 'True':
-        ds = sample_data
     else:
         print('getting results for ', url)
         dataset_data = requests.get(url)
