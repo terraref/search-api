@@ -20,7 +20,7 @@ print(os.path.isfile(path_to_map))
 f= open(path_to_map, 'r')
 full_reader = csv.reader(f)
 
-other = 'other.csv'
+other = 'other_search_list_s6.csv'
 
 f1=  open(rgb_geotiffs_csv, 'w')
 rgb_geotiff_writer = csv.writer(f1)

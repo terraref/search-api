@@ -7,6 +7,7 @@ rgb_geotiffs_csv = 'rgb_geotiffs_search_list_s6.csv'
 thermal_ir_geotiffs_csv = 'thermal_ir_geotiffs_search_list_s6.csv'
 laser_3d_scanner_3d_las_csv = 'laser_3d_scanner_3d_las_search_list_s6.csv'
 full_field_images_csv = 'fullfields_search_list_s6.csv'
+other_csv = 'other_search_list_s6.csv'
 
 
 
@@ -19,6 +20,7 @@ path_to_rgb_geotiff_map = os.path.join(current_location, 'helpers', rgb_geotiffs
 path_to_thermal_ir_geotiffs_map =  os.path.join(current_location, 'helpers', thermal_ir_geotiffs_csv)
 path_to_laser_3d_scanner_las_map = os.path.join(current_location, 'helpers', laser_3d_scanner_3d_las_csv)
 path_to_fullfield_product_map = os.path.join(current_location, 'helpers', full_field_images_csv)
+path_to_other_map = os.path.join(current_location, 'helpers', other_csv)
 
 
 def get_datasets_by_product_dataset_name(dataset_name, sites=[]):
@@ -52,6 +54,27 @@ def get_datasets_by_product_dataset_name(dataset_name, sites=[]):
                 current_entry["name"] = current_name
                 current_entry["id"] = current_id
                 results.append(current_entry)
+    if len(results) == 0:
+        map_to_use = other_csv
+        f = open(map_to_use, 'r')
+        reader = csv.reader(f)
+        for row in reader:
+            current_name = row[1]
+            current_plot = row[2]
+            current_id = row[0]
+            if len(sites) > 0:
+                if current_name.startswith(dataset_name):
+                    if current_plot in sites:
+                        current_entry = dict()
+                        current_entry["name"] = current_name
+                        current_entry["id"] = current_id
+                        results.append(current_entry)
+            else:
+                if current_name.startswith(dataset_name):
+                    current_entry = dict()
+                    current_entry["name"] = current_name
+                    current_entry["id"] = current_id
+                    results.append(current_entry)
     return results
 
 
