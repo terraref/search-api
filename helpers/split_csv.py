@@ -8,7 +8,7 @@ clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS
                     'Full Field RGB Images', 'Full Field IR Images']
 
 
-def generate_csv_names(path_to_search_list_csv):
+def generate_csv_names(path_to_search_list_csv, location=""):
     csv_name = os.path.split(path_to_search_list_csv)[-1]
     csv_name = csv_name.rstrip('.csv')
     season_number = csv_name[-2:]
@@ -17,8 +17,10 @@ def generate_csv_names(path_to_search_list_csv):
 
     for product in clowder_products:
         csv_name = 'search_cache_'+season_number+' '+product+'.csv'
+        if location != "":
+            csv_name = os.path.join(location, csv_name)
         csv_names.append(csv_name)
-
+    'search_cache_' + season_number + ' ' + 'other' + '.csv'
     return csv_names
 
 def get_product_csv_writers(path_to_search_list_csv):
@@ -86,6 +88,4 @@ def split_full_csv(path_to_search_list_csv):
     return 'Done'
 
 #a = get_product_csv_writers(path_to_csv)
-b = split_full_csv(path_to_csv)
-
-print('done')
+#b = split_full_csv(path_to_csv)
