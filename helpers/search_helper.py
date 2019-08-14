@@ -1,6 +1,10 @@
 import csv
 import os
 
+if 'SEARCH_CACHE_DIR' in os.environ:
+    search_cache_dir = os.environ['SEARCH_CACHE_DIR']
+
+
 search_csv = 'search_list_s6.csv'
 
 rgb_geotiffs_csv = 'rgb_geotiffs_search_list_s6.csv'
