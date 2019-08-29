@@ -1,0 +1,608 @@
+openapi: 3.0.0
+info:
+  description: Search api for TERRA project
+  version: "1.0.0"
+  title: TERRA advanced search api
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: http://localhost:5000/search-api/v1
+    description: Test Server
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: developers
+    description: Operations available to regular developers
+paths:
+  /observationunits:
+    get:
+      tags:
+        - Observationunits
+      summary: Get observationunits/plots with filters applied
+      description: Observationunits method.
+      parameters:
+        - name: date
+          in: query
+          description: Filter observationunits/plots that include this date
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: season
+          in: query
+          description: Filter by season.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: germplasm
+          in: query
+          description: Filter by germplasm/cultivar.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Filter by result page. Note that page indexing starts at 0.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: "0"
+        - name: pageSize
+          in: query
+          description: The number of records per page. Default is `1000`.
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+          example: 1000
+        - name: Authorization
+          in: header
+          description: "HTTP HEADER - Token used for Authorization \n\n<strong>Bearer\
+          \ {token_string} </strong>"
+          required: false
+          style: simple
+          explode: false
+          schema:
+            pattern: ^Bearer .*$
+            type: string
+          example: Bearer XXXX
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/observationunits'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+  /cultivars:
+    get:
+      tags:
+        - Cultivars
+      summary: Get Cultivars
+      description: Cultivars method.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cultivars'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+
+  /products:
+    get:
+      tags:
+        - Products
+      summary: Get products
+      description: Producs method.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/products'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+  /sites:
+    get:
+      tags:
+        - Sites
+      summary: Get sites
+      description: Sites api method.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sites'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+  /search:
+    get:
+      tags:
+      - Search
+      summary: Search with filters applied
+      description: Search method.
+      parameters:
+      - name: season
+        in: query
+        description: Filter by season. Season name.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: date
+        in: query
+        description: Filter by single date.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: start_date
+        in: query
+        description: Filter by single date.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        description: Filter by single date.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: experimentId
+        in: query
+        description: Filter by experimentId.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: germplasmName
+        in: query
+        description: Filter by program germplasmName.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: treatmentId
+        in: query
+        description: Filter by treatment.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: product
+        in: query
+        description: Product
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sitename
+        in: query
+        description: Sitename
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Filter by result page. Note that page indexing starts at 0.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+        example: "0"
+      - name: pageSize
+        in: query
+        description: The number of records per page. Default is `1000`.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+        example: 1000
+      - name: Authorization
+        in: header
+        description: "HTTP HEADER - Token used for Authorization \n\n<strong>Bearer\
+          \ {token_string} </strong>"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          pattern: ^Bearer .*$
+          type: string
+        example: Bearer XXXX
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchResults'
+              example:
+                metadata:
+                  datafiles: []
+                  pagination:
+                    currentPage: 0
+                    pageSize: 2
+                    totalCount: 2
+                    totalPages: 1
+                  status: []
+                result:
+                  data:
+                    leadPersonDbId: person1
+                    leadPersonName: Name Nameson
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+
+  /seasons:
+    get:
+      tags:
+      - Seasons
+      summary: Get seasons with filters applied
+      description: API method for season.
+      parameters:
+      - name: date
+        in: query
+        description: Filter seasons that include this date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: observationunitname
+        in: query
+        description: Filter by observationunitname/plotname.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: germplasm
+        in: query
+        description: Filter by germplasm/cultivar.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Filter by result page. Note that page indexing starts at 0.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+        example: "0"
+      - name: pageSize
+        in: query
+        description: The number of records per page. Default is `1000`.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+        example: 1000
+      - name: Authorization
+        in: header
+        description: "HTTP HEADER - Token used for Authorization \n\n<strong>Bearer\
+          \ {token_string} </strong>"
+        required: false
+        style: simple
+        explode: false
+        schema:
+          pattern: ^Bearer .*$
+          type: string
+        example: Bearer XXXX
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/seasons'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: |-
+                ERROR - 2018-10-08T20:15:11Z - Malformed JSON Request Object
+                ERROR - 2018-10-08T20:15:11Z - Invalid query parameter
+                ERROR - 2018-10-08T20:15:11Z - Required parameter is missing
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - Missing or expired authorization
+                token
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: string
+              example: ERROR - 2018-10-08T20:15:11Z - User does not have permission
+                to perform this action
+components:
+  schemas:
+    cultivars:
+      type: array
+    germplasm:
+      required:
+        - germplasmName
+      properties:
+        genus:
+          type: string
+          example: "sorghum"
+        commoncropname:
+          type: string
+          example: "sorghum"
+        germplasmName:
+          type: string
+          example: "PI564163"
+    product:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example : 'Canopy Cover'
+    products:
+      type: array
+      items:
+        $ref: "#/components/schemas/product"
+    site:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "MAC Field Scanner Season 6 Range 1 Column 1"
+    sites:
+      type: array
+      items:
+        $ref: "#components/schemas/site"
+    betySearchResult:
+      properties:
+        name:
+          type: string
+          example: "Canopy Cover Season 6"
+        view:
+          type: string
+          example: "https://traitvis.workbench.terraref.org/"
+        download:
+          type: string
+          example: "http://0.0.0.0:5454/download_file/Season%206%20canopy_cover.csv"
+    clowderSearchResult:
+      properties:
+        name:
+          type: string
+          example: "dviSensor - 2019-04-30__12-52-28-576"
+        view:
+          type: string
+          example: "https://terraref.ncsa.illinois.edu/clowder/datasets/5d1b5f194f0c82bd890310d6"
+        download:
+          type: string
+          example: "https://terraref.ncsa.illinois.edu/clowder/api/datasets/5d1b5f184f0c60bf546bd092"
+    searchResult:
+      properties:
+        site:
+          type: string
+          example: Maricopa, AZ
+        observationunitname:
+          type: string
+          example: "MAC Field Scanner Season 1 Range 1 Column 1"
+        experiment:
+          type: string
+          example: Drought Tolerance
+        germplasm:
+          type: object
+          $ref: "#/components/schemas/germplasm"
+        dataset_ids:
+          type: array
+        datasets:
+          type: array
+        download_links:
+          type: array
+        download_link:
+          type: string
+      type: object
+    searchResults:
+      properties:
+        bety:
+          type: array
+          $ref: "#/components/schemas/betySearchResult"
+        clowder:
+          type: array
+          $ref: "#/components/schemas/clowderSearchResult"
+    observationunit:
+      required:
+        - observationunitname
+      properties:
+        observationunitname:
+          type: string
+          example: "MAC Field Scanner Season 1 Range 1 Column 1"
+        experiment:
+          type: string
+          example: Drought Tolerance
+        season:
+          type: string
+          example: Season 1
+        coordinates:
+          type: array
+          example: [33.0, -111.0]
+    observationunits:
+      type: array
+      items:
+        $ref: "#/components/schemas/observationunit"
+    season:
+      required:
+        - seasonname
+      properties:
+        seasonname:
+          type: string
+          example: Season 1
+        startdate:
+          type: string
+          example: "2017-01-01"
+        enddate:
+          type: string
+          example: "2017-04-39"
+    seasons:
+      type: array
+      items:
+        $ref: "#/components/schemas/season"
+
