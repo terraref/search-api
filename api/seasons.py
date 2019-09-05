@@ -3,6 +3,10 @@ import requests
 
 config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
 
+"""
+Seasons are derived from BETYdb's experiments table, using BrAPI's /studies endpoint.
+"""
+
 def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, pageSize=None, page=None):
     # Use /studies endpoint because /seasons doesn't include start & end date
     url = "%s/studies" % config["brapi_api"]

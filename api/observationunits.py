@@ -1,9 +1,14 @@
-import json
+import yaml
+import requests
 
-data = json.load(open('dummy-data/observationunits.json', 'r'))
+config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
+
+"""
+Sites are the experimental plot names, using BrAPI's /observationunits endpoint.
+"""
 
 def search(season=None, experimentId=None, germplasmId=None, treatmendId=None, pageSize=None, page=None):
     return data
 
 def get(season=None, experimentId=None, germplasmId=None, treatmendId=None, pageSize=None, page=None):
-    return "this is the page"
+    return "Not implemented."
