@@ -1,0 +1,5 @@
+# URL of BrAPI endpoint to use for certain definitions
+brapi_api: https://search-api-dev.workbench.terraref.org/search-api/v1
+
+# Whether to filter to Seasons 4 & 6
+filter_seasons: True
