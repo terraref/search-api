@@ -22,14 +22,12 @@ def get_datetime_object(bety_date_string):
     dt_object = datetime.strptime(bety_date_string, '%Y %b %d')
     return dt_object
 
-
 def generate_bety_csv_from_filename(filename):
     parts_of_filename = filename.split(' ')
     product = parts_of_filename[-1].replace('.csv', '')
     sitename = filename[:filename.index(product)]
     result = get_trait_sitename(sitename, trait=product, bety_key= os.environ['BETY_KEY'])
     return result
-
 
 def get_bety_search_result(sitename, trait):
     t = trait.lower().replace(' ', '_')
@@ -40,7 +38,6 @@ def get_bety_search_result(sitename, trait):
     download_link = download_link.replace(' ', '%20')
     return {"name": trait + ' ' + sitename,
             "view": "https://traitvis.workbench.terraref.org/", "download": download_link}
-
 
 def get_trait_sitename(sitename, trait, bety_key):
     t = trait.lower().replace(' ', '_')
@@ -113,4 +110,3 @@ def get_trait_sitename(sitename, trait, bety_key):
     df.to_csv(csv_name, index=False)
 
     return csv_name
-

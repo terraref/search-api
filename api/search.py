@@ -1,10 +1,5 @@
-import json
 import yaml
-import os
 from flask import Flask, Response, abort
-from flask import Flask, render_template, send_file, request, url_for, redirect, make_response
-from io import StringIO
-from werkzeug.exceptions import BadRequest
 from helpers import bety_helper, clowder_helper, search_helper
 from api.cultivars import get_sites_by_cultivar
 
@@ -13,6 +8,9 @@ config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
 bety_products = config["bety_products"]
 clowder_products = config["clowder_products"]
 
+"""
+General search endpoint for searching using multiple parameters.
+"""
 
 def search(season=None, date=None, start_date=None, end_date=None, experimentId=None, germplasmName=None, treatmentId=None, product=None, sitename=None,pageSize=None, page=None):
     if season is None: season = '6'
@@ -22,41 +20,23 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
     if product:
         # ----- SEARCH CLOWDER ------
         if str(product) in clowder_products:
+            if date:
+                start_date = date
+                end_date = date
+            elif start_date is None or end_date is None:
+                return abort(400, "Need start_date and end_date for product: " + product)
+
             if germplasmName:
                 # Get the plot names for the requested cultivar
                 sites = get_sites_by_cultivar(germplasmName, "MAC Season %s" % season)
-
-
-
-                if date:
-                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date, sites)
-                    return {"clowder": result, "bety": []}
-                elif start_date and end_date:
-                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, sites)
-                    return {"clowder": result, "bety": []}
-
-                else:
-                    return abort(400, "Need start_date and end_date for product : " + product)
-
             elif sitename:
-                if date:
-                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date, [sitename])
-                    return {"clowder": result, "bety": []}
-                elif start_date and end_date:
-                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, [sitename])
-                    return {"clowder": result, "bety": []}
-                else:
-                    return abort(400, "Need start_date and end_date for product : " + product)
-
+                sites = [sitename]
             else:
-                if date:
-                    result = clowder_helper.get_clowder_result_single_date_old_method(product, date, [])
-                    return {"clowder": result, "bety": []}
-                elif start_date and end_date:
-                    result = clowder_helper.get_clowder_result_date_range(product, start_date, end_date, [])
-                    return {"clowder": result, "bety": []}
-                else:
-                    return abort(400, "Need start_date and end_date for product : " + product)
+                sites = []
+
+            # Get datasets filtered by this plot (and optionally date)
+            results = clowder_helper.search_products_cached(product, start_date, end_date, sites)
+            return results
 
         # ----- SEARCH BETYDB ------
         elif str(product) in bety_products:
