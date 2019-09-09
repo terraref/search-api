@@ -1,14 +1,28 @@
 import yaml
 import requests
+import urllib.parse as urlparse
+from urllib.parse import urlencode
+from api.seasons import _getSeasonId
 
 config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
 
 """
-Sites are the experimental plot names, using BrAPI's /observationunits endpoint.
+Sites are the experimental plot names, using BrAPI's /layouts endpoint.
 """
 
 def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, pageSize=None, page=None):
     url = "%s/observationunits" % config["brapi_api"]
+    params = {}
+
+    # Apply filters
+    if season is not None:
+        seasonDbId = _getSeasonId(season)
+        if seasonDbId:
+            params["seasonDbId"] = seasonDbId
+
+    if germplasmId is not None:
+        params["germplasmDbId"] = germplasmId
+
     try:
         results = []
         r = requests.get(url).json()['result']['data']

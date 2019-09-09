@@ -3,3 +3,16 @@ brapi_api: https://search-api-dev.workbench.terraref.org/search-api/v1
 
 # Whether to filter to Seasons 4 & 6
 filter_seasons: True
+
+# List of products to allow selection of
+bety_products:
+  - canopy cover
+  - canopy height
+  - mean temperature
+
+clowder_products:
+  - RGB GeoTIFFs
+  - Thermal IR GeoTIFFs
+  - Laser Scanner 3D LAS
+  - Full Field RGB Images
+  - Full Field IR Images

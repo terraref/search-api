@@ -1,7 +1,0 @@
-[{"name": "RGB GeoTIFFs"},
-  {"name": "Thermal IR GeoTIFFs"},
-  {"name": "Laser Scanner 3D LAS"},
-  {"name": "Canopy Cover"},
-  {"name": "Mean Temperature"},
-  {"name": "Canopy Height"}
-]

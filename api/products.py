@@ -1,8 +1,14 @@
-import json
-bety_products = ['Canopy Cover', 'Canopy Height', 'Mean Temperature']
-clowder_products = ['RGB GeoTIFFs', 'Thermal IR GeoTIFFs', 'Laser Scanner 3D LAS',
-                    'Full Field RGB Images', 'Full Field IR Images']
+import yaml
+import requests
 
+config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
+
+"""
+Products are the available data products to search. Currently hard-coded.
+"""
+
+bety_products = config["bety_products"]
+clowder_products = config["clowder_products"]
 
 def search():
     full_products = bety_products + clowder_products
