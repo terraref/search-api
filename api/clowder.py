@@ -2,6 +2,11 @@ import requests
 import os
 import datetime
 import csv
+import yaml
+
+config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
+clowder_url = config["clowder_url"]
+max_results = config["max_results"]
 
 """
 Helper functions for searching Clowder or cached files.
@@ -52,7 +57,8 @@ def search_products_cached(product, start_date, end_date, sites=[]):
     # Iterate over cache files, e.g. "RGB GeoTIFFs - 2018-06.csv"
     cache_dir = os.path.join(os.getcwd(), 'data')
     for cache_file in os.listdir(cache_dir):
-        if cache_file.startswith(product):
+        lookup_product = "Full Field" if product == "Full Field Images" else product
+        if cache_file.startswith(lookup_product):
             cache_month = cache_file.split(" - ")[1].replace(".csv", "")
             if start_month <= cache_month <= end_month:
                 cf = open(os.path.join(cache_dir, cache_file), 'r')
@@ -64,12 +70,15 @@ def search_products_cached(product, start_date, end_date, sites=[]):
                     ds_date = ds_name.split(" - ")[1].split('__')[0]
                     ds_plot = row[2]
 
-                    if (len(sites) == 0 or ds_plot in sites) and ds_prod == product and start_date <= ds_date <= end_date:
+                    if (len(sites) == 0 or ds_plot in sites) and ds_prod == lookup_product and start_date <= ds_date <= end_date:
                         results.append({
                             "name": ds_name,
-                            "view": "%s/dataset/%s" % (clowder_url, ds_id),
-                            "download": "%s/api/datasets/%s" % (clowder_url, ds_id)
+                            "view": "%s/datasets/%s" % (clowder_url, ds_id),
+                            "download": "%s/api/datasets/%s/download" % (clowder_url, ds_id)
                         })
+
+                        if len(results) >= max_results:
+                            return results
 
     return results
 

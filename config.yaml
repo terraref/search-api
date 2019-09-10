@@ -1,18 +1,27 @@
-# URL of BrAPI endpoint to use for certain definitions
+# URLs for APIs and resources
 brapi_api: https://search-api-dev.workbench.terraref.org/search-api/v1
+clowder_url: https://terraref.ncsa.illinois.edu/clowder
+bety_api: https://terraref.ncsa.illinois.edu/bety/api/v1/search
 
-# Whether to filter to Seasons 4 & 6
+# Whether to filter to Season 6 (temporary)
 filter_seasons: True
+# Maximum number of results to include
+max_results: 1000
 
 # List of products to allow selection of
 bety_products:
   - canopy cover
   - canopy height
-  - mean temperature
-
+  - leaf angle alpha
+  - leaf angle beta
+  - leaf angle chi
+  - leaf angle mean
+  - panicle count
+  - panicle volume
+  - panicle surface area
+  - surface temperature
 clowder_products:
   - RGB GeoTIFFs
   - Thermal IR GeoTIFFs
   - Laser Scanner 3D LAS
-  - Full Field RGB Images
-  - Full Field IR Images
+  - Full Field Images

@@ -14,7 +14,6 @@ def search():
     full_products = bety_products + clowder_products
     return full_products
 
-
 def get():
     full_products = bety_products + clowder_products
     return full_products

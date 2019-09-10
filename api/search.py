@@ -1,12 +1,13 @@
 import yaml
 from flask import Flask, Response, abort
-from helpers import bety_helper, clowder_helper, search_helper
+from api.clowder import search_products
+from api.bety import get_bety_search_result
 from api.cultivars import get_sites_by_cultivar
 
 config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
-
 bety_products = config["bety_products"]
 clowder_products = config["clowder_products"]
+
 
 """
 General search endpoint for searching using multiple parameters.
@@ -24,7 +25,7 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
                 start_date = date
                 end_date = date
             elif start_date is None or end_date is None:
-                return abort(400, "Need start_date and end_date for product: " + product)
+                return abort(400, "Need start_date and end_date for " + product)
 
             if germplasmName:
                 # Get the plot names for the requested cultivar
@@ -35,14 +36,15 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
                 sites = []
 
             # Get datasets filtered by this plot (and optionally date)
-            results = clowder_helper.search_products_cached(product, start_date, end_date, sites)
-            return results
+            results = search_products(product, start_date, end_date, sites)
+            return {"clowder": results, "bety": []}
 
         # ----- SEARCH BETYDB ------
         elif str(product) in bety_products:
             #result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
-            result = bety_helper.get_bety_search_result('Season ' + season, trait=product)
+            result = get_bety_search_result('Season ' + season, trait=product)
             return {"clowder": [], "bety": [result]}
+
         else:
             return abort(400, "No product matches " + product)
 

@@ -42,7 +42,7 @@ def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, p
         for start in distinct:
             if config["filter_seasons"]:
                 seas_name = distinct[start]['seasonname']
-                if seas_name.endswith("Season 4") or seas_name.endswith("Season 6"):
+                if seas_name.endswith("Season 6"):
                     results.append(distinct[start])
             else:
                 results.append(distinct[start])
