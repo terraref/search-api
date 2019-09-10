@@ -15,6 +15,10 @@ RUN apk add --no-cache postgresql-libs \
     && ln -s /usr/include/locale.h /usr/include/xlocale.h \
     && pip install pandas
 
+RUN apk --update upgrade && \
+    apk -U add ca-certificates && \
+    update-ca-certificates && \
+    rm -rf /var/cache/apk/*
 
 COPY . .
 

@@ -1,5 +1,5 @@
 # URLs for APIs and resources
-brapi_api: https://search-api-dev.workbench.terraref.org/search-api/v1
+brapi_api: https://brapi.workbench.terraref.org/brapi/v1
 clowder_url: https://terraref.ncsa.illinois.edu/clowder
 bety_api: https://terraref.ncsa.illinois.edu/bety/api/v1/search
 

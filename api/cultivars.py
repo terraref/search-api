@@ -1,7 +1,9 @@
 import yaml
 import requests
+import logging
 from api.sites import search as search_plotnames
 
+logger = logging.getLogger('search-api')
 config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
 
 """
@@ -76,13 +78,12 @@ def get_sites_by_cultivar(cultivar, season=None):
     try:
         # First, get cultivar ID from name
         url = "%s/germplasm?germplasmName=%s" % (config["brapi_api"], cultivar)
-        r = requests.get(url).json()['result']['data']
+        r = requests.get(url, verify=False).json()['result']['data']
         for germ in r:
             # Then, use that ID + season name to get list of plot names
             germ_id = germ['germplasmDbId']
             results += search_plotnames(season, germplasmId=germ_id)
-        return results
-    except:
-        print("Error getting sites for cultivar %s" % cultivar)
+    except Exception as e:
+        logging.info("Error getting sites for cultivar %s: %s" % (cultivar, e))
 
     return results

@@ -1,6 +1,8 @@
 import yaml
 import requests
+import logging
 
+logger = logging.getLogger('search-api')
 config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
 
 """
@@ -12,7 +14,7 @@ def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, p
     url = "%s/studies" % config["brapi_api"]
     try:
         distinct = {}
-        r = requests.get(url).json()['result']['data']
+        r = requests.get(url, verify=False).json()['result']['data']
 
         # Get distinct season names
         for study in r:
@@ -22,7 +24,8 @@ def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, p
                 seas_name = str(seas['season'])
                 if start not in distinct:
                     distinct[start] = {
-                        "seasonname": seas_name,
+                        # TODO: Remove this replace once search GUI is fixed
+                        "seasonname": seas_name.replace("MAC ", ""),
                         "seasonDbId": str(seas['seasonDbId']),
                         "studies": [{
                             "studyname": str(study["studyName"]),
@@ -49,8 +52,8 @@ def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, p
 
         return results
 
-    except:
-        print("Error fetching seasons from BrAPI; using default.")
+    except Exception as e:
+        logger.info("Error fetching seasons from BrAPI: %s" % e)
 
         s4 = {"seasonname": "Season 4",
             "seasonDbId": "a8317fa6b59bfa8cfe29004423f5613b",
@@ -78,7 +81,7 @@ def search(season=None, experimentId=None, germplasmId=None, treatmentId=None, p
         elif season == "MAC Season 6":
             return [s6]
         else:
-            return [s4, s6]
+            return [s6]
 
 def get(season=None, experimentId=None, germplasmId=None, treatmentId=None, pageSize=None, page=None):
     return "Not implemented."
