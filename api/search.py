@@ -41,7 +41,6 @@ def search(season=None, date=None, start_date=None, end_date=None, experimentId=
 
         # ----- SEARCH BETYDB ------
         elif str(product) in bety_products:
-            #result = bety_helper.get_trait_sitename('Season ' + season, trait=product, bety_key=os.environ['BETY_KEY'])
             result = get_bety_search_result('Season ' + season, trait=product)
             return {"clowder": [], "bety": [result]}
 

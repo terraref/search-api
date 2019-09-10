@@ -54,6 +54,7 @@ def create_app():
                              attachment_filename=filename,
                              as_attachment=True)
         else:
+            logger.info("Generating %s" % filename)
             result = generate_bety_csv_from_filename(filename)
             return send_file(result,
                              mimetype='text/csv',

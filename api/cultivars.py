@@ -86,4 +86,3 @@ def get_sites_by_cultivar(cultivar, season=None):
         print("Error getting sites for cultivar %s" % cultivar)
 
     return results
-

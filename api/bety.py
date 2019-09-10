@@ -2,9 +2,11 @@ import requests
 import yaml
 import pandas as pd
 import datetime
+import logging
 from datetime import datetime
 import os
 
+logger = logging.getLogger('search-api')
 config = yaml.load(open("config.yaml", 'r'), Loader=yaml.FullLoader)
 bety_api = config["bety_api"]
 bety_key = os.environ['BETYDB_KEY']
@@ -24,9 +26,9 @@ def get_datetime_object(bety_date_string):
     return dt_object
 
 def generate_bety_csv_from_filename(filename):
-    parts_of_filename = filename.split(' ')
+    parts_of_filename = filename.replace('%20', ' ').split(' ')
     product = parts_of_filename[-1].replace('.csv', '')
-    sitename = filename[:filename.index(product)]
+    sitename = filename[:filename.index(product)].rstrip()
     result = get_trait_sitename(sitename, trait=product, bety_key=bety_key)
     return result
 
@@ -44,13 +46,14 @@ def get_trait_sitename(sitename, trait, bety_key):
     csv_name = "%s %s.csv" % (sitename, t)
 
     values = []
-    full_column_names = ['date']
+    full_column_names = []
 
     offset = 0
     done = False
     while not done:
         full_url = "%s?trait=%s&sitename=~%s&limit=10000&key=%s" % (bety_api, t, sitename, bety_key)
         if offset > 0: full_url += "&offset=%s" % offset
+        logger.info("Fetching BETYdb data for %s from %s" % (t, offset))
         r = requests.get(full_url, timeout=None)
         if r.status_code == 200:
             data = r.json()["data"]
@@ -69,15 +72,9 @@ def get_trait_sitename(sitename, trait, bety_key):
                                 pass
                             else:
                                 full_column_names.append(k)
-                    # Distinct list if date is included twice
-                    full_column_names = list(set(full_column_names))
                     for each in full_column_names:
                         current_row.append(current_entry_dict[each])
                     values.append(current_row)
-                if len(data) < 10000:
-                    done = True
-                else:
-                    offset += 10000
             else:
                 if len(data) > 0:
                     for entry in data:
@@ -97,11 +94,12 @@ def get_trait_sitename(sitename, trait, bety_key):
                 offset += 10000
 
     df = pd.DataFrame(values, columns=full_column_names)
+
     try:
         df.sort_values(by=['date'], inplace=True, ascending=True)
     except:
-        print("Failed to sort dataframe by date.")
-    finally:
-        df.to_csv(csv_name, index=False)
+        logger.info("Failed to sort dataframe by date.")
+
+    df.to_csv(csv_name, index=False)
 
     return csv_name
